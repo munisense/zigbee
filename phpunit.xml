@@ -1,0 +1,18 @@
+<phpunit bootstrap="vendor/autoload.php" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false"
+         stopOnSkipped="false" colors="true">
+    <testsuites>
+        <testsuite name="Munisense Zigbee Suite">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <group>ignore</group>
+        </exclude>
+    </groups>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

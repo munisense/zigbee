@@ -1,0 +1,19 @@
+{
+    "name": "munisense/zigbee",
+    "description": "Zigbee Frame Encoding/Decoding Library",
+    "keywords": ["munisense", "zigbee","frame","encoding", "decoding","php"],
+    "type": "library",
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {"Munisense\\Zigbee\\": ["src/"]}
+    },
+    "autoload-dev": {
+        "psr-4": {"Munisense\\Zigbee\\": ["src/", "tests/"]}
+    }
+}

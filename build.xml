@@ -1,0 +1,78 @@
+<project name="Munisense Zigbee Library" default="build">
+    <target name="clean">
+        <delete dir="${basedir}/build"/>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/docs"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+    </target>
+
+    <target name="basedir">
+        <exec dir="${basedir}"
+              executable="pwd">
+        </exec>
+    </target>
+
+    <target name="phpdoc">
+        <exec dir="${basedir}"
+              executable="phpdoc"
+              failonerror="true">
+            <arg line="-t build/docs/
+                  --directory src
+                  -ti 'Munisense Zigbee Library'
+                  --parseprivate on
+                  --undocumentedelements on
+                  --output HTML:Smarty:PHP"/>
+        </exec>
+    </target>
+
+    <target name="phpcpd">
+        <exec dir="${basedir}"
+              executable="/usr/local/bin/phpcpd"
+              failonerror="false">
+            <arg line="--log-pmd build/logs/pmd.xml src"/>
+        </exec>
+    </target>
+
+    <target name="pdepend">
+        <exec dir="${basedir}"
+              executable="pdepend"
+              failonerror="true">
+            <arg line="--jdepend-xml=build/logs/jdepend.xml src"/>
+        </exec>
+    </target>
+
+    <target name="phpcs">
+        <exec dir="${basedir}"
+              executable="phpcs"
+              output="${basedir}/build/logs/checkstyle.xml"
+              failonerror="false">
+            <arg line="--report=checkstyle src"/>
+        </exec>
+    </target>
+
+    <target name="phpunit">
+        <exec dir="${basedir}"
+              executable="phpunit"
+              failonerror="false">
+            <arg line="-c phpunit.xml
+                 --log-junit build/logs/junit.xml"/>
+        </exec>
+    </target>
+
+    <target name="code-coverage">
+        <exec dir="${basedir}"
+              executable="phpunit"
+              failonerror="false">
+            <arg line="-c phpunit.xml
+                 --coverage-html build/coverage
+                 --log-junit build/logs/junit.xml
+                 --coverage-clover build/logs/clover.xml
+        "/>
+        </exec>
+    </target>
+
+    <target name="build" depends="clean,prepare, phpcpd, pdepend, code-coverage"/>
+</project>
