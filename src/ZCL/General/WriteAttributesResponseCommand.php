@@ -45,7 +45,7 @@ class WriteAttributesResponseCommand extends AbstractFrame implements IZCLComman
       {
       $status = Buffer::unpackInt8u($frame);
       if($status != ZCLStatus::SUCCESS)
-        throw new MuniZigbeeException("If a WriteAttributeResponse only has one byte, it should be the SUCCESS status");
+        throw new MuniZigbeeException("If a ".__CLASS__." only has one byte, it should be the SUCCESS status");
 
       return;
       }

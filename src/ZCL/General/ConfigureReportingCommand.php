@@ -13,12 +13,24 @@ class ConfigureReportingCommand extends AbstractFrame implements IZCLCommandFram
    */
   private $attribute_reporting_configuration_records = array();
 
+  /**
+   * @param AttributeReportingConfigurationRecord[] $attribute_reporting_configuration_records
+   * @return ConfigureReportingCommand
+   */
+  public static function construct(array $attribute_reporting_configuration_records = array())
+    {
+    $frame = new self;
+    $frame->setAttributeReportingConfigurationRecords($attribute_reporting_configuration_records);
+    return $frame;
+    }
+
   public function setFrame($frame)
     {
     while(strlen($frame))
       {
-      $configure_reporting_element = new AttributeReportingConfigurationRecord($frame);
-      $this->attribute_reporting_configuration_records[] = $configure_reporting_element;
+      $configure_reporting_element = new AttributeReportingConfigurationRecord();
+      $configure_reporting_element->consumeFrame($frame);
+      $this->addAttributeReportingConfigurationRecord($configure_reporting_element);
       }
     }
 

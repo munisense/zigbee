@@ -11,11 +11,16 @@ class AttributeReport extends AbstractFrame
   private $datatype_id = 0x00;
   private $value = "";
 
-  public function setFrame($frame)
+  public function consumeFrame(&$frame)
     {
     $this->setAttributeId(Buffer::unpackInt16u($frame));
     $this->setDatatypeId(Buffer::unpackInt8u($frame));
     $this->setValue(Buffer::unpackDatatype($frame, $this->getDatatypeId()));
+    }
+
+  public function setFrame($frame)
+    {
+    $this->consumeFrame($frame);
     }
 
   public function getFrame()

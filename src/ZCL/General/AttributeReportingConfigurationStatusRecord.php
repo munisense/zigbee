@@ -1,7 +1,7 @@
 <?php
 
 namespace Munisense\Zigbee\ZCL\General;
-use Munisense\Zigbee\AbstractFrame;
+
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
 use Munisense\Zigbee\ZCL\ZCLStatus;
@@ -9,68 +9,101 @@ use Munisense\Zigbee\ZCL\ZCLStatus;
 /**
  * Class AttributeReportingConfigurationStatusRecord
  * @package Munisense\Zigbee\ZCL\General
- *
- * TODO Implementation is partly done
  */
-class AttributeReportingConfigurationStatusRecord extends AbstractFrame
+class AttributeReportingConfigurationStatusRecord extends AttributeReportingConfigurationRecord
   {
   private $status;
-  const DIRECTION_SERVER_TO_CLIENT = 0x00;
-  const DIRECTION_CLIENT_TO_SERVER = 0x01;
 
-  private $direction = self::DIRECTION_SERVER_TO_CLIENT;
-  private $attribute_id;
-  private $datatype_id;
-  private $minimum_reporting_interval;
-  private $maximum_reporting_interval;
-  private $reportable_change;
-  private $timeout_period;
-
-  public static function construct($status, $direction, $attribute_id, $datatype_id, $minimum_reporting_interval,
-                                   $maximum_reporting_interval, $reportable_change, $timeout_period)
+  /**
+   * AttributeReportingConfigurationStatusRecord is a AttributeReportingConfigurationRecord
+   * prepended with a status field.
+   *
+   * @param AttributeReportingConfigurationRecord $parent
+   * @return AttributeReportingConfigurationStatusRecord
+   */
+  public static function constructSuccess(AttributeReportingConfigurationRecord $parent)
     {
     $element = new self;
-    $element->setAttributeId($attribute_id);
-    $element->setDatatypeId($datatype_id);
+    $element->setStatus(ZCLStatus::SUCCESS);
+
+    $element->setParentFrame($parent);
+
     return $element;
+    }
+
+  /**
+   * If there is an error code, we do not need the full AttributeReportingConfigurationRecord
+   *
+   * @param $status
+   * @param $direction
+   * @param $attribute_id
+   * @return AttributeReportingConfigurationStatusRecord
+   */
+  public static function constructWithError($status, $direction, $attribute_id)
+    {
+    $element = new self;
+    $element->setStatus($status);
+    $element->setDirection($direction);
+    $element->setAttributeId($attribute_id);
+
+    return $element;
+    }
+
+
+  protected function setParentFrame(AttributeReportingConfigurationRecord $parent)
+    {
+    parent::consumeFrame($parent->getFrame());
     }
 
   public function consumeFrame(&$frame)
     {
-    $this->setAttributeId(Buffer::unpackInt16u($frame));
-    $this->setDatatypeId(Buffer::unpackInt8u($frame));
+    $this->setStatus(Buffer::unpackInt8u($frame));
+    parent::consumeFrame($frame);
     }
 
-  public function setFrame($frame)
-    {
-    $this->consumeFrame($frame);
-    }
 
   public function getFrame()
     {
     $frame = "";
 
-    Buffer::packInt16u($frame, $this->getAttributeId());
-    Buffer::packInt8u($frame, $this->getDatatypeId());
+    Buffer::packInt8u($frame, $this->getStatus());
+
+    if($this->getStatus() == ZCLStatus::SUCCESS)
+      {
+      $frame .= parent::getFrame();
+      }
+    // If the status field is not set to SUCCESS, all fields except the direction and
+    // attribute identifier fields shall be omitted.
+    else
+      {
+      Buffer::packInt8u($frame, $this->getDirection());
+      Buffer::packInt16u($frame, $this->getAttributeId());
+      }
 
     return $frame;
     }
 
   /**
+   * If the attribute is not implemented on the sender or receiver of the command,
+   * whichever is relevant (depending on direction), this field shall be set to
+   * UNSUPPORTED_ATTRIBUTE. If the attribute is supported, but is not capable of
+   * being reported, this field shall be set to UNREPORTABLE_ATTRIBUTE.
+   * Otherwise, this field shall be set to SUCCESS.
+   *
    * @param int $status
    * @throws MuniZigbeeException
    */
   public function setStatus($status)
     {
     $status = intval($status);
-    if($status < 0x00 || $status > 0xff)
+    if(!in_array($status, [ZCLStatus::UNSUPPORTED_ATTRIBUTE, ZCLStatus::UNREPORTABLE_ATTRIBUTE, ZCLStatus::SUCCESS]))
       throw new MuniZigbeeException("Invalid status");
 
     $this->status = $status;
     }
 
   /**
-   * @return mixed
+   * @return int Status
    */
   public function getStatus()
     {
@@ -82,66 +115,9 @@ class AttributeReportingConfigurationStatusRecord extends AbstractFrame
     return ZCLStatus::displayStatus($this->getStatus());
     }
 
-  public function setDirection($direction)
-    {
-    $direction = intval($direction);
-    if($direction < 0x00 || $direction > 0x01)
-      throw new MuniZigbeeException("Invalid direction");
-
-    $this->direction = $direction;
-    }
-
-  public function getDirection()
-    {
-    return $this->direction;
-    }
-
-  public function displayDirection()
-    {
-    return sprintf("0x%02x", $this->getDirection());
-    }
-
-  public function setAttributeId($attribute_id)
-    {
-    $attribute_id = intval($attribute_id);
-    if($attribute_id < 0x00 || $attribute_id > 0xffff)
-      throw new MuniZigbeeException("Invalid attribute id");
-
-    $this->attribute_id = $attribute_id;
-    }
-
-  public function getAttributeId()
-    {
-    return $this->attribute_id;
-    }
-
-  public function displayAttributeId()
-    {
-    return sprintf("0x%04x", $this->getAttributeId());
-    }
-
-  public function setDatatypeId($datatype_id)
-    {
-    $datatype_id = intval($datatype_id);
-    if($datatype_id < 0x00 || $datatype_id > 0xff)
-      throw new MuniZigbeeException("Invalid datatype id");
-
-    $this->datatype_id = $datatype_id;
-    }
-
-  public function getDatatypeId()
-    {
-    return $this->datatype_id;
-    }
-
-  public function displayDatatypeId()
-    {
-    return sprintf("0x%02x", $this->getDatatypeId());
-    }
-
   public function __toString()
     {
-    return "AttributeId: ".$this->displayAttributeId().", DatatypeId: ".$this->displayDatatypeId();
+    return "Status: ".$this->displayStatus().", ".parent::__toString();
     }
   }
 

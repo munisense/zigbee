@@ -29,7 +29,7 @@ class WriteAttributesCommand extends AbstractFrame implements IZCLCommandFrame
       {
       $write_attribute_record = new WriteAttributeRecord();
       $write_attribute_record->consumeFrame($frame);
-      $this->write_attribute_records[] = $write_attribute_record;
+      $this->addWriteAttributeRecord($write_attribute_record);
       }
     }
 

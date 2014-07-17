@@ -42,7 +42,7 @@ class ReadReportingConfigurationResponseCommand extends AbstractFrame implements
       {
       $attribute_record = new AttributeReportingConfigurationStatusRecord();
       $attribute_record->consumeFrame($frame);
-      $this->attribute_reporting_configuration_status_records[] = $attribute_record;
+      $this->addAttributeReportingConfigurationStatusRecord($attribute_record);
       }
     }
 

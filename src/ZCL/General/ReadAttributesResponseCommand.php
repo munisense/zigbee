@@ -26,7 +26,7 @@ class ReadAttributesResponseCommand extends AbstractFrame implements IZCLCommand
       {
       $status_record = new ReadAttributesStatusRecord();
       $status_record->consumeFrame($frame);
-      $this->read_attributes_status_records[] = $status_record;
+      $this->addReadAttributesElement($status_record);
       }
     }
 

@@ -15,7 +15,7 @@ class AttributeStatusRecord extends AbstractFrame
   private $direction = self::DIRECTION_SERVER_TO_CLIENT;
   private $attribute_id;
 
-  public static function construct(ZCLStatus $status, $direction, $attribute_id)
+  public static function construct($status, $direction, $attribute_id)
     {
     $element = new self;
     $element->setStatus($status);

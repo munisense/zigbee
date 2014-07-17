@@ -13,20 +13,35 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
 
   private $direction = self::DIRECTION_SERVER_TO_CLIENT;
 
-  private $attribute_id = 0x0000;
-  private $datatype_id = 0x00;
-  private $minimum_reporting_interval = 0;
-  private $maximum_reporting_interval = 0;
-  private $reportable_change = "";
-  private $timeout_period = 0;
+  private $attribute_id;
+  private $datatype_id;
+  private $minimum_reporting_interval;
+  private $maximum_reporting_interval;
+  private $reportable_change;
+  private $timeout_period;
 
-  public function __construct(&$frame = null)
+  public static function constructReported($attribute_id, $datatype_id, $minimum_reporting_interval, $maximum_reporting_interval, $reportable_change)
     {
-    if($frame !== null)
-      $this->setFrame($frame);
+    $frame = new self;
+    $frame->setAttributeId($attribute_id);
+    $frame->setDirection(self::DIRECTION_SERVER_TO_CLIENT);
+    $frame->setDatatypeId($datatype_id);
+    $frame->setMinimumReportingInterval($minimum_reporting_interval);
+    $frame->setMaximumReportingInterval($maximum_reporting_interval);
+    $frame->setReportableChange($reportable_change);
+    return $frame;
     }
 
-  public function setFrame($frame)
+  public static function constructReceived($attribute_id, $timeout_period)
+    {
+    $frame = new self;
+    $frame->setAttributeId($attribute_id);
+    $frame->setDirection(self::DIRECTION_CLIENT_TO_SERVER);
+    $frame->setTimeoutPeriod($timeout_period);
+    return $frame;
+    }
+
+  public function consumeFrame(&$frame)
     {
     $this->setDirection(Buffer::unpackInt8u($frame));
     $this->setAttributeId(Buffer::unpackInt16u($frame));
@@ -42,6 +57,11 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
       {
       $this->setTimeoutPeriod(Buffer::unpackInt16u($frame));
       }
+    }
+
+  public function setFrame($frame)
+    {
+    $this->consumeFrame($frame);
     }
 
   public function getFrame()

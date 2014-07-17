@@ -1,10 +1,7 @@
 <?php
 
 namespace Munisense\Zigbee\ZCL\General;
-use Munisense\Zigbee\AbstractFrame;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
 use Munisense\Zigbee\ZCL\IZCLCommandFrame;
-use Munisense\Zigbee\ZCL\ZCLFrame;
 
 /**
  * Class WriteAttributesUndividedCommand

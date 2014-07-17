@@ -51,9 +51,9 @@ class DiscoverAttributesResponseCommand extends AbstractFrame implements IZCLCom
 
     while(strlen($frame))
       {
-      $attribute = new AttributeInformation();
-      $attribute->consumeFrame($frame);
-      $this->attributes[] = $attribute;
+      $attribute_information = new AttributeInformation();
+      $attribute_information->consumeFrame($frame);
+      $this->addAttributeInformation($attribute_information);
       }
     }
 
@@ -62,7 +62,14 @@ class DiscoverAttributesResponseCommand extends AbstractFrame implements IZCLCom
    */
   public function setAttributes($attributes)
     {
-    $this->attributes = $attributes;
+    $this->attributes = [];
+    foreach($attributes as $attribute_information)
+      $this->addAttributeInformation($attribute_information);
+    }
+
+  public function addAttributeInformation(AttributeInformation $attribute_information)
+    {
+    $this->attributes[] = $attribute_information;
     }
 
   /**

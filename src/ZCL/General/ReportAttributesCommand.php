@@ -27,10 +27,8 @@ class ReportAttributesCommand extends AbstractFrame implements IZCLCommandFrame
     while(strlen($frame))
       {
       $attribute_report = new AttributeReport();
-      $attribute_report->setAttributeId(Buffer::unpackInt16u($frame));
-      $attribute_report->setDatatypeId(Buffer::unpackInt8u($frame));
-      $attribute_report->setValue(Buffer::unpackDatatype($frame, $attribute_report->getDatatypeId()));
-      $this->attribute_reports[] = $attribute_report;
+      $attribute_report->consumeFrame($frame);
+      $this->addAttributeReport($attribute_report);
       }
     }
 
@@ -48,9 +46,7 @@ class ReportAttributesCommand extends AbstractFrame implements IZCLCommandFrame
     {
     $this->attribute_reports = [];
     foreach($attribute_reports as $attribute_report)
-     $this->addAttributeReport($attribute_report);
-
-    $this->attribute_reports = $attribute_reports;
+      $this->addAttributeReport($attribute_report);
     }
 
   public function getAttributeReports()

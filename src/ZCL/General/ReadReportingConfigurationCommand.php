@@ -62,8 +62,6 @@ class ReadReportingConfigurationCommand extends AbstractFrame implements IZCLCom
     $this->attribute_records = [];
     foreach($attribute_records as $attribute_record)
       $this->addAttributeRecord($attribute_record);
-
-    $this->attribute_records = $attribute_records;
     }
 
   /**
