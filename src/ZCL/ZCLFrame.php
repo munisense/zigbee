@@ -377,7 +377,7 @@ class ZCLFrame extends AbstractFrame
       {
       $output .= preg_replace("/^   /", "`- ", preg_replace("/^/m", "   ", $this->getPayloadObject()));
       }
-    catch(MuniZigbeeException $e)
+    catch(\Exception $e)
       {
       $output .= "`-> ".$this->displayPayload().PHP_EOL;
       }
