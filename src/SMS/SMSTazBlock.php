@@ -337,7 +337,7 @@ class SMSTazBlock implements IFrame
     {
     try
       {
-      $output = "ZigBeeSMSTazBlock (length: " . strlen($this->getFrame()) . ")" . PHP_EOL;
+      $output = __CLASS__." (length: " . strlen($this->getFrame()) . ")" . PHP_EOL;
       $output .= "|- TazHeader        : " . $this->displayTazHeader() . PHP_EOL;
       $output .= "|  |- ReqTimePres   : " . $this->displayRequestTimestampPresent() . PHP_EOL;
       $output .= "|  |- ExecTimePre   : " . $this->displayExecuteTimestampPresent() . PHP_EOL;

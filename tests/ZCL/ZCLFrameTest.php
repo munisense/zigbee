@@ -2,7 +2,6 @@
 
 namespace Munisense\Zigbee\ZCL;
 
-use Munisense\Zigbee\Exception\MuniZigbeeException;
 use Munisense\Zigbee\ZCL\General\GeneralCommand;
 use Munisense\Zigbee\ZCL\General\AttributeIdentifier;
 use Munisense\Zigbee\ZCL\General\ReadAttributesCommand;

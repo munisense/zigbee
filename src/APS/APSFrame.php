@@ -901,7 +901,7 @@ class APSFrame implements IFrame
     {
     $short = $this->isShortFrame();
 
-    $output =  "ZigBeeAPSFrame (length: ".strlen($this->getFrame()).", format: ".$this->displayFrameFormat().")".PHP_EOL;
+    $output =  __CLASS__." (length: ".strlen($this->getFrame()).", format: ".$this->displayFrameFormat().")".PHP_EOL;
     $output .= "|- frameControl     : ".$this->displayFrameControl().PHP_EOL;
     $output .= "|  |- frameType     : ".$this->displayFrameType().PHP_EOL;
     $output .= "|  |- deliveryMode  : ".$this->displayDeliveryMode().PHP_EOL;
