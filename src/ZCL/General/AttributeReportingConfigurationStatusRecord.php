@@ -49,10 +49,10 @@ class AttributeReportingConfigurationStatusRecord extends AttributeReportingConf
     return $element;
     }
 
-
   protected function setParentFrame(AttributeReportingConfigurationRecord $parent)
     {
-    parent::consumeFrame($parent->getFrame());
+    $parent_frame = $parent->getFrame();
+    parent::consumeFrame($parent_frame);
     }
 
   public function consumeFrame(&$frame)
