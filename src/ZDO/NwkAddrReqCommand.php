@@ -1,23 +1,32 @@
 <?php
 
 namespace Munisense\Zigbee\ZDO;
+use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
 
-class ZDONwkAddrReqFrame
+/**
+ * Class NwkAddrReqCommand
+ * @package Munisense\Zigbee\ZDO
+ *
+ * The NWK_addr_req is generated from a Local Device wishing to inquire as to the
+ * 16-bit address of the Remote Device based on its known IEEE address. The
+ * destination addressing on this command shall be unicast or broadcast to all
+ * devices for which macRxOnWhenIdle = TRUE.
+ *
+ * TODO It might be nice to have a static constructor for Single and for Extended
+ */
+class NwkAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
   {
-  const REQUEST_TYPE_SINGLE = 0x00;
-  const REQUEST_TYPE_EXTENDED = 0x01;
+  const CLUSTER_ID = 0x0000;
 
   private $ieee_address = "0";
-  private $request_type = 0x00;
-  private $start_index = 0x00;
 
-  public function __construct($frame = null)
-    {
-    if($frame !== null)
-      $this->setFrame($frame);
-    }
+  const REQUEST_TYPE_SINGLE = 0x00;
+  const REQUEST_TYPE_EXTENDED = 0x01;
+  private $request_type = self::REQUEST_TYPE_SINGLE;
+
+  private $start_index = 0x00;
 
   public function setFrame($frame)
     {
@@ -37,11 +46,6 @@ class ZDONwkAddrReqFrame
       Buffer::packInt8u($frame, $this->getStartIndex());
 
     return $frame;
-    }
-
-  public function displayFrame()
-    {
-    return Buffer::displayOctetString($this->getFrame());
     }
 
   public function setIeeeAddress($ieee_address)
@@ -130,6 +134,15 @@ class ZDONwkAddrReqFrame
       $output .= "`- StartIndex  : ".$this->displayStartIndex().PHP_EOL;
 
     return $output;
+    }
+
+  /**
+   * Returns the Cluster ID of this frame
+   * @return int
+   */
+  public function getClusterId()
+    {
+    return self::CLUSTER_ID;
     }
   }
 
