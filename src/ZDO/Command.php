@@ -95,10 +95,6 @@ class Command
   const COMMAND_MGMT_CACHE_RSP = 0x8037;
   const COMMAND_MGMT_NWK_UPDATE_RSP = 0x8038;
 
-  public static $old_command = array(
-      self::COMMAND_NWK_ADDR_REQ => array("class" => "Munisense\\Zigbee\\ZDO\\NwkAddrReqCommand", "name" => "Network Address Request"),
-  );
-
   public static $command = array(
     self::COMMAND_NWK_ADDR_REQ => array("class" => "Munisense\\Zigbee\\ZDO\\NwkAddrReqCommand", "name" => "Network Address Request"),
     self::COMMAND_IEEE_ADDR_REQ => array("class" => "Munisense\\Zigbee\\ZDO\\IeeeAddrReqCommand", "name" => "Ieee Address Request"),
