@@ -10,7 +10,7 @@ can be either constructed using a bytestring or using the getters/setters and st
 The easiest way to use the library is to add it as dependency in the [composer.json](http://getcomposer.org) of your project. 
 
     "require": {
-        "munisense/zigbee": "~2.0",
+        "munisense/zigbee": "~2.1",
     }
 
 Then run `composer update` and include the `vendor/autoload.php` in your project files, if not already.
@@ -52,6 +52,10 @@ To run the tests you need phpunit installed. Instead of downloading the library 
 After that it is as simple as calling `phpunit` in the root folder everytime you want to run the tests.
 
 ### Revision History
+
+#### 2.1.0
+* Added Configure Reporting and Configure Reporting Response support
+* Fixed some minor bugs and added more unit tests.
 
 #### 2.0.0 
 * Added a namespace hierarchy for the different layers and clusters in ZigBee
