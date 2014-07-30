@@ -16,16 +16,16 @@ class ZDOFrameTest extends \PHPUnit_Framework_TestCase
 
   public function testCommandInclusion()
     {
-    $command = new NwkAddrReqCommand();
+    $command = NwkAddrReqCommand::constructSingle(0xbeef);
     $frame = ZDOFrame::construct($command, 0x12);
 
     $this->assertEquals($command->getClusterId(), $frame->getCommandId());
-    $this->assertEquals("0x12 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
+    $this->assertEquals("0x12 0xef 0xbe 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
     }
 
   public function testGetPayloadObject()
     {
-    $command = new NwkAddrReqCommand();
+    $command = NwkAddrReqCommand::constructSingle(0xbeef);
     $frame = ZDOFrame::construct($command, 0x12);
     $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\NwkAddrReqCommand", $frame->getPayloadObject());
     }

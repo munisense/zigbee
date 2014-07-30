@@ -33,32 +33,32 @@ class NwkAddrRspCommandTest extends \PHPUnit_Framework_TestCase
    */
   public function testGetFrameEmptyList()
     {
-    $frame = NwkAddrRspCommand::constructSingle(Status::SUCCESS, 123456, 0xae);
-    $base_str = "0x00 0x40 0xe2 0x01 0x00 0x00 0x00 0x00 0x00 0xae";
+    $frame = NwkAddrRspCommand::constructSingle(Status::SUCCESS, 123456, 0x77ae);
+    $base_str = "0x00 0x40 0xe2 0x01 0x00 0x00 0x00 0x00 0x00 0xae 0x77";
     $this->assertEquals($base_str, $frame->displayFrame());
 
     // Num associated devices as 0x00 and omit the rest
-    $frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0xae, 0x01, []);
+    $frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0x77ae, 0x01, []);
     $this->assertEquals($base_str." 0x00", $frame->displayFrame());
     }
 
   public function testGetFrameExtended()
     {
-    $frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0xae, 0x01, [0x1234, 0xabcd]);
-    $base_str = "0x00 0x40 0xe2 0x01 0x00 0x00 0x00 0x00 0x00 0xae";
+    $frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0x77ae, 0x01, [0x1234, 0xabcd]);
+    $base_str = "0x00 0x40 0xe2 0x01 0x00 0x00 0x00 0x00 0x00 0xae 0x77";
     $this->assertEquals($base_str." 0x02 0x01 0x34 0x12 0xcd 0xab", $frame->displayFrame());
     }
 
   public function testSetFrameSimple()
     {
-    $base_frame = NwkAddrRspCommand::constructSingle(Status::SUCCESS, 123456, 0xae);
+    $base_frame = NwkAddrRspCommand::constructSingle(Status::SUCCESS, 123456, 0x77ae);
     $frame = new NwkAddrRspCommand($base_frame->getFrame());
     $this->assertEquals($base_frame->displayFrame(), $frame->displayFrame());
     }
 
   public function testSetFrameExtended()
     {
-    $base_frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0xae, 0x01, [0x1234, 0xabcd]);
+    $base_frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0x77ae, 0x01, [0x1234, 0xabcd]);
     $frame = new NwkAddrRspCommand($base_frame->getFrame());
     $this->assertEquals($base_frame->displayFrame(), $frame->displayFrame());
     }
@@ -74,16 +74,16 @@ class NwkAddrRspCommandTest extends \PHPUnit_Framework_TestCase
 
   public function testInclusionByConstructor()
     {
-    $base_frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0xae, 0x01, [0x1234, 0xabcd]);
+    $base_frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0x77ae, 0x01, [0x1234, 0xabcd]);
     $transaction_id = chr(0x12);
-    $parent = new ZDOFrame($transaction_id .$base_frame->getFrame(), NwkAddrRspCommand::CLUSTER_ID);
+    $parent = new ZDOFrame($transaction_id .$base_frame->getFrame(), $base_frame->getClusterId());
     $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\NwkAddrRspCommand", $parent->getPayloadObject());
     $this->assertEquals($base_frame->displayFrame(), $parent->displayPayload());
     }
 
   public function testInclusionByStaticConstructor()
     {
-    $base_frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0xae, 0x01, [0x1234, 0xabcd]);
+    $base_frame = NwkAddrRspCommand::constructExtended(Status::SUCCESS, 123456, 0x77ae, 0x01, [0x1234, 0xabcd]);
     $transaction_id = 20;
     $parent = ZDOFrame::construct($base_frame, $transaction_id);
     $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\NwkAddrRspCommand", $parent->getPayloadObject());

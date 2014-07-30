@@ -3,10 +3,10 @@
 namespace Munisense\Zigbee\ZDO;
 
 /**
- * Class NwkAddrRspCommand
+ * Class IEEEAddrRspCommand
  * @package Munisense\Zigbee\ZDO
  */
-class NwkAddrRspCommand extends AbstractAddrRspCommand
+class IEEEAddrRspCommand extends AbstractAddrRspCommand
   {
   /**
    * Returns the Cluster ID of this frame
@@ -14,7 +14,7 @@ class NwkAddrRspCommand extends AbstractAddrRspCommand
    */
   public function getClusterId()
     {
-    return Command::COMMAND_NWK_ADDR_RSP;
+    return Command::COMMAND_IEEE_ADDR_RSP;
     }
   }
 
