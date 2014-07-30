@@ -13,8 +13,6 @@ use Munisense\Zigbee\Exception\MuniZigbeeException;
  * 16-bit address of the Remote Device based on its known IEEE address. The
  * destination addressing on this command shall be unicast or broadcast to all
  * devices for which macRxOnWhenIdle = TRUE.
- *
- * TODO It might be nice to have a static constructor for Single and for Extended
  */
 class NwkAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
   {
