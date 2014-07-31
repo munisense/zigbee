@@ -3,6 +3,8 @@
 namespace Munisense\Zigbee\ZDO;
 
 
+use Munisense\Zigbee\ZDO\Discovery\NwkAddrReqCommand;
+
 class ZDOFrameTest extends \PHPUnit_Framework_TestCase
   {
   /**
@@ -27,6 +29,6 @@ class ZDOFrameTest extends \PHPUnit_Framework_TestCase
     {
     $command = NwkAddrReqCommand::constructSingle(0xbeef);
     $frame = ZDOFrame::construct($command, 0x12);
-    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\NwkAddrReqCommand", $frame->getPayloadObject());
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\Discovery\\NwkAddrReqCommand", $frame->getPayloadObject());
     }
   }

@@ -1,13 +1,15 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDO\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\ZDO\Command;
+use Munisense\Zigbee\ZDO\IZDOCommandFrame;
 
 /**
  * Class NwkAddrReqCommand
- * @package Munisense\Zigbee\ZDO
+ * @package Munisense\Zigbee\ZDO\Discovery
  *
  * The NWK_addr_req is generated from a Local Device wishing to inquire as to the
  * 16-bit address of the Remote Device based on its known IEEE address. The

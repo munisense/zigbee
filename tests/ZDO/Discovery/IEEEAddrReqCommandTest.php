@@ -1,6 +1,8 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDO\Discovery;
+
+use Munisense\Zigbee\ZDO\ZDOFrame;
 
 class IEEEAddrReqCommandTest extends \PHPUnit_Framework_TestCase
   {
@@ -45,7 +47,7 @@ class IEEEAddrReqCommandTest extends \PHPUnit_Framework_TestCase
     $base_frame = IEEEAddrReqCommand::constructExtended(0x1234, 0x01);
     $transaction_id = chr(0x12);
     $parent = new ZDOFrame($transaction_id .$base_frame->getFrame(), $base_frame->getClusterId());
-    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\IEEEAddrReqCommand", $parent->getPayloadObject());
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\Discovery\\IEEEAddrReqCommand", $parent->getPayloadObject());
     $this->assertEquals($base_frame->displayFrame(), $parent->displayPayload());
     }
 
@@ -54,7 +56,7 @@ class IEEEAddrReqCommandTest extends \PHPUnit_Framework_TestCase
     $base_frame = IEEEAddrReqCommand::constructExtended(0x1234, 0x01);
     $transaction_id = 20;
     $parent = ZDOFrame::construct($base_frame, $transaction_id);
-    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\IEEEAddrReqCommand", $parent->getPayloadObject());
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\Discovery\\IEEEAddrReqCommand", $parent->getPayloadObject());
     $this->assertEquals($base_frame->displayFrame(), $parent->displayPayload());
     }
   }

@@ -1,14 +1,16 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDO\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\ZDO\IZDOCommandFrame;
+use Munisense\Zigbee\ZDO\Status;
 
 /**
  * Base class for NwkAddrRsp and IEEEAddrRsp because they are similar in structure
  *
- * @package Munisense\Zigbee\ZDO
+ * @package Munisense\Zigbee\ZDO\Discovery
  *
  * Note: This command is tricky in that it needs state from the request (request_type) to properly decide how it needs to
  * return it's frame.

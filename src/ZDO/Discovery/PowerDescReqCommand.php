@@ -1,11 +1,12 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDO\Discovery;
+use Munisense\Zigbee\ZDO\Command;
 
 /**
  * Class PowerDescReqCommand
  *
- * @package Munisense\Zigbee\ZDO
+ * @package Munisense\Zigbee\ZDO\Discovery
  *
  * The Power_Desc_req command is generated from a local device wishing to
  * inquire as to the power descriptor of a remote device.

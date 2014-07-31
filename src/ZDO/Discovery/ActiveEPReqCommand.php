@@ -1,11 +1,12 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDO\Discovery;
+use Munisense\Zigbee\ZDO\Command;
 
 /**
  * Class ActiveEPReqCommand
  *
- * @package Munisense\Zigbee\ZDO
+ * @package Munisense\Zigbee\ZDO\Discovery
  *
  * The Active_EP_req command is generated from a local device wishing to acquire
  * the list of endpoints on a remote devicewith simple descriptors.

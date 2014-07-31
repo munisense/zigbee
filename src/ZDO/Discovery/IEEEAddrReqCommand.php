@@ -1,14 +1,16 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDO\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\ZDO\Command;
+use Munisense\Zigbee\ZDO\IZDOCommandFrame;
 
 /**
  * Class IEEEAddrReqCommand
  *
- * @package Munisense\Zigbee\ZDO
+ * @package Munisense\Zigbee\ZDO\Discovery
  *
  * The IEEE_addr_req is generated from a LocalDevice wishing to inquire as to the
  * 64-bit IEEE address of the Remote Devicebased on their known 16-bit address.
