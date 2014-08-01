@@ -212,6 +212,11 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
       throw new MuniZigbeeException("Invalid status supplied");
     }
 
+  public function displayStatus()
+    {
+    return Status::displayStatus($this->getStatus());
+    }
+
   public function displayIeeeAddressRemoteDev()
     {
     return Buffer::displayEui64($this->getIeeeAddressRemoteDev());
@@ -239,6 +244,7 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
   public function __toString()
     {
     $output = __CLASS__." (length: ".strlen($this->getFrame()).")".PHP_EOL;
+    $output .= "|- Status    : ".$this->displayStatus().PHP_EOL;
     $output .= "|- IeeeAddr    : ".$this->displayIeeeAddressRemoteDev().PHP_EOL;
     $output .= "|- NwkAddr     : ".$this->displayNwkAddrRemoteDev().PHP_EOL;
 
