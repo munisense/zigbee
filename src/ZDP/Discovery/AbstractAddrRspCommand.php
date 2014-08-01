@@ -1,23 +1,23 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
+namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
-use Munisense\Zigbee\ZDO\IZDOCommandFrame;
-use Munisense\Zigbee\ZDO\Status;
+use Munisense\Zigbee\ZDP\IZDPCommandFrame;
+use Munisense\Zigbee\ZDP\Status;
 
 /**
  * Base class for NwkAddrRsp and IEEEAddrRsp because they are similar in structure
  *
- * @package Munisense\Zigbee\ZDO\Discovery
+ * @package Munisense\Zigbee\ZDP\Discovery
  *
  * Note: This command is tricky in that it needs state from the request (request_type) to properly decide how it needs to
  * return it's frame.
  *
  * NumAssocDev is not a field on it's own, it is derived from the length of AssociatedDeviceList
  */
-abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDOCommandFrame
+abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPCommandFrame
   {
   private static $allowed_statusses = [Status::SUCCESS, Status::INV_REQUESTTYPE, Status::DEVICE_NOT_FOUND];
 

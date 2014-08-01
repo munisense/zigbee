@@ -1,19 +1,19 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
+namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
-use Munisense\Zigbee\ZDO\IZDOCommandFrame;
+use Munisense\Zigbee\ZDP\IZDPCommandFrame;
 
 /**
  * Class AbstractNWKAddrOfInterestReqCommand
  *
- * @package Munisense\Zigbee\ZDO\Discovery
+ * @package Munisense\Zigbee\ZDP\Discovery
  *
- * Since a lot of ZDO Commands start with or only have the nwk_addr_of_interest, here's a basis to work from.
+ * Since a lot of ZDP Commands start with or only have the nwk_addr_of_interest, here's a basis to work from.
  */
-abstract class AbstractNWKAddrOfInterestReqCommand extends AbstractFrame implements IZDOCommandFrame
+abstract class AbstractNWKAddrOfInterestReqCommand extends AbstractFrame implements IZDPCommandFrame
   {
   private $nwk_address_of_interest;
 

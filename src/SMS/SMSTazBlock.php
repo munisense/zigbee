@@ -21,7 +21,7 @@ class SMSTazBlock implements IFrame
 
   const APS_FORMAT_NORMAL = 0x00;
   const APS_FORMAT_SHORT_ZCL = 0x01;
-  const APS_FORMAT_SHORT_ZDO = 0x02;
+  const APS_FORMAT_SHORT_ZDP = 0x02;
   const APS_FORMAT_RESERVED = 0x03;
 
   private $request_timestamp_present = self::REQUEST_TIMESTAMP_NOT_PRESENT;
@@ -211,7 +211,7 @@ class SMSTazBlock implements IFrame
 
   public function setApsFormat($aps_format)
     {
-    if (!in_array($aps_format, array(self::APS_FORMAT_SHORT_ZCL, self::APS_FORMAT_SHORT_ZDO, self::APS_FORMAT_NORMAL)))
+    if (!in_array($aps_format, array(self::APS_FORMAT_SHORT_ZCL, self::APS_FORMAT_SHORT_ZDP, self::APS_FORMAT_NORMAL)))
     throw new MuniZigbeeException("Invalid aps format");
 
     $this->aps_format = $aps_format;
@@ -233,8 +233,8 @@ class SMSTazBlock implements IFrame
       case self::APS_FORMAT_SHORT_ZCL:
         $output = "Short ZCL";
         break;
-      case self::APS_FORMAT_SHORT_ZDO:
-        $output = "Short ZDO";
+      case self::APS_FORMAT_SHORT_ZDP:
+        $output = "Short ZDP";
         break;
       case self::APS_FORMAT_RESERVED:
         $output = "Reserved";

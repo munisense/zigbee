@@ -1,8 +1,8 @@
 <?php
 
-namespace ZDO\Discovery;
+namespace ZDP\Discovery;
 
-use Munisense\Zigbee\ZDO\Discovery\SimpleDescriptor;
+use Munisense\Zigbee\ZDP\Discovery\SimpleDescriptor;
 
 class SimpleDescriptorTest extends \PHPUnit_Framework_TestCase
   {

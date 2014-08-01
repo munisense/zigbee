@@ -1,12 +1,12 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
-use Munisense\Zigbee\ZDO\Command;
+namespace Munisense\Zigbee\ZDP\Discovery;
+use Munisense\Zigbee\ZDP\Command;
 
 /**
  * Class NodeDescReqCommand
  *
- * @package Munisense\Zigbee\ZDO\Discovery
+ * @package Munisense\Zigbee\ZDP\Discovery
  *
  * The Node_Desc_req command is generated from a local device wishing to inquire
  * as to the node descriptor of a remote device

@@ -1,9 +1,9 @@
 <?php
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDP;
 
 use Munisense\Zigbee\IFrame;
 
-interface IZDOCommandFrame extends IFrame
+interface IZDPCommandFrame extends IFrame
   {
   /**
    * Returns the Cluster ID of this frame

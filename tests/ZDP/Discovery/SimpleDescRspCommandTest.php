@@ -1,13 +1,13 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
-use Munisense\Zigbee\ZDO\Status;
-use Munisense\Zigbee\ZDO\ZDOFrame;
+namespace Munisense\Zigbee\ZDP\Discovery;
+use Munisense\Zigbee\ZDP\Status;
+use Munisense\Zigbee\ZDP\ZDPFrame;
 
 /**
  * Class SimpleDescRspCommandTest
  *
- * @package Munisense\Zigbee\ZDO\Discovery
+ * @package Munisense\Zigbee\ZDP\Discovery
  */
 class SimpleDescRspCommandTest extends \PHPUnit_Framework_TestCase
   {
@@ -27,8 +27,8 @@ class SimpleDescRspCommandTest extends \PHPUnit_Framework_TestCase
     {
     $base_frame = SimpleDescRspCommand::constructFailure(Status::DEVICE_NOT_FOUND, 0xab12);
     $transaction_id = chr(0x12);
-    $parent = new ZDOFrame($transaction_id .$base_frame->getFrame(), $base_frame->getClusterId());
-    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\Discovery\\SimpleDescRspCommand", $parent->getPayloadObject());
+    $parent = new ZDPFrame($transaction_id .$base_frame->getFrame(), $base_frame->getClusterId());
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZDP\\Discovery\\SimpleDescRspCommand", $parent->getPayloadObject());
     $this->assertEquals($base_frame->displayFrame(), $parent->displayPayload());
     }
 
@@ -36,8 +36,8 @@ class SimpleDescRspCommandTest extends \PHPUnit_Framework_TestCase
     {
     $base_frame = SimpleDescRspCommand::constructFailure(Status::DEVICE_NOT_FOUND, 0xab12);
     $transaction_id = 20;
-    $parent = ZDOFrame::construct($base_frame, $transaction_id);
-    $this->assertInstanceOf("Munisense\\Zigbee\\ZDO\\Discovery\\SimpleDescRspCommand", $parent->getPayloadObject());
+    $parent = ZDPFrame::construct($base_frame, $transaction_id);
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZDP\\Discovery\\SimpleDescRspCommand", $parent->getPayloadObject());
     $this->assertEquals($base_frame->displayFrame(), $parent->displayPayload());
     }
   }

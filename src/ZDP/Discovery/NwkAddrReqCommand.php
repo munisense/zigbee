@@ -1,24 +1,24 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
+namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
-use Munisense\Zigbee\ZDO\Command;
-use Munisense\Zigbee\ZDO\IZDOCommandFrame;
+use Munisense\Zigbee\ZDP\Command;
+use Munisense\Zigbee\ZDP\IZDPCommandFrame;
 
 /**
- * Class IEEEAddrReqCommand
+ * Class NwkAddrReqCommand
+ * @package Munisense\Zigbee\ZDP\Discovery
  *
- * @package Munisense\Zigbee\ZDO\Discovery
- *
- * The IEEE_addr_req is generated from a LocalDevice wishing to inquire as to the
- * 64-bit IEEE address of the Remote Devicebased on their known 16-bit address.
- * The destination addressing on this command shall be unicast.
+ * The NWK_addr_req is generated from a Local Device wishing to inquire as to the
+ * 16-bit address of the Remote Device based on its known IEEE address. The
+ * destination addressing on this command shall be unicast or broadcast to all
+ * devices for which macRxOnWhenIdle = TRUE.
  */
-class IEEEAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
+class NwkAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
   {
-  private $nwk_address;
+  private $ieee_address;
 
   const REQUEST_TYPE_SINGLE = 0x00;
   const REQUEST_TYPE_EXTENDED = 0x01;
@@ -26,26 +26,26 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
 
   private $start_index = 0x00;
 
-  public static function constructSingle($nwk_address)
+  public static function constructSingle($ieee_address)
     {
     $frame = new self;
     $frame->setRequestType(self::REQUEST_TYPE_SINGLE);
-    $frame->setNwkAddress($nwk_address);
+    $frame->setIeeeAddress($ieee_address);
     return $frame;
     }
 
-  public static function constructExtended($nwk_address, $start_index = 0x00)
+  public static function constructExtended($ieee_address, $start_index = 0x00)
     {
     $frame = new self;
     $frame->setRequestType(self::REQUEST_TYPE_EXTENDED);
-    $frame->setNwkAddress($nwk_address);
+    $frame->setIeeeAddress($ieee_address);
     $frame->setStartIndex($start_index);
     return $frame;
     }
 
   public function setFrame($frame)
     {
-    $this->setNwkAddress(Buffer::unpackInt16u($frame));
+    $this->setIeeeAddress(Buffer::unpackEui64($frame));
     $this->setRequestType(Buffer::unpackInt8u($frame));
     if($this->isStartIndexPresent())
       $this->setStartIndex(Buffer::unpackInt8u($frame));
@@ -55,7 +55,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
     {
     $frame = "";
 
-    Buffer::packInt16u($frame, $this->getNwkAddress());
+    Buffer::packEui64($frame, $this->getIeeeAddress());
     Buffer::packInt8u($frame, $this->getRequestType());
     if($this->isStartIndexPresent())
       Buffer::packInt8u($frame, $this->getStartIndex());
@@ -63,22 +63,22 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
     return $frame;
     }
 
-  public function setNwkAddress($nwk_address)
+  public function setIeeeAddress($ieee_address)
     {
-    if($nwk_address >= 0x0000 && $nwk_address <= 0xffff)
-      $this->nwk_address = $nwk_address;
+    if($ieee_address > 0x0000000000000000 && $ieee_address <= 0xffffffffffffffff)
+      $this->ieee_address = $ieee_address;
     else
-      throw new MuniZigbeeException("Invalid nwk address");
+      throw new MuniZigbeeException("Invalid IEEE Address");
     }
 
-  public function getNwkAddress()
+  public function getIeeeAddress()
     {
-    return $this->nwk_address;
+    return $this->ieee_address;
     }
 
-  public function displayNwkAddress()
+  public function displayIeeeAddress()
     {
-    return Buffer::displayInt16u($this->getNwkAddress());
+    return Buffer::displayEui64($this->getIeeeAddress());
     }
 
   public function setRequestType($request_type)
@@ -137,7 +137,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
   public function __toString()
     {
     $output = __CLASS__." (length: ".strlen($this->getFrame()).")".PHP_EOL;
-    $output .= "|- NwkAddr    : ".$this->displayNwkAddress().PHP_EOL;
+    $output .= "|- IeeeAddr    : ".$this->displayIeeeAddress().PHP_EOL;
     $output .= ($this->isStartIndexPresent() ? "|" : "`")."- RequestType : ".$this->displayRequestType().PHP_EOL;
     if($this->isStartIndexPresent())
       $output .= "`- StartIndex  : ".$this->displayStartIndex().PHP_EOL;
@@ -151,7 +151,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDOCommandFrame
    */
   public function getClusterId()
     {
-    return Command::COMMAND_IEEE_ADDR_REQ;
+    return Command::COMMAND_NWK_ADDR_REQ;
     }
   }
 

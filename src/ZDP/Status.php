@@ -1,6 +1,6 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDP;
 
 class Status
   {

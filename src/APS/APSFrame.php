@@ -5,7 +5,7 @@ use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
 use Munisense\Zigbee\IFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
-use Munisense\Zigbee\ZDO\ZDOFrame;
+use Munisense\Zigbee\ZDP\ZDPFrame;
 
 /**
  * Zigbee Specification: 2.2.5.1
@@ -15,7 +15,7 @@ class APSFrame implements IFrame
   // Munisense Specific frame format
   const FRAME_FORMAT_NORMAL = 0x00;
   const FRAME_FORMAT_SHORT_ZCL = 0x01;
-  const FRAME_FORMAT_SHORT_ZDO = 0x02;
+  const FRAME_FORMAT_SHORT_ZDP = 0x02;
   const FRAME_FORMAT_RESERVED = 0x03;
   private $frame_format = self::FRAME_FORMAT_NORMAL;
 
@@ -300,7 +300,7 @@ class APSFrame implements IFrame
    */
   public function isShortFrame()
     {
-    if(in_array($this->getFrameFormat(), array(self::FRAME_FORMAT_SHORT_ZCL, self::FRAME_FORMAT_SHORT_ZDO)))
+    if(in_array($this->getFrameFormat(), array(self::FRAME_FORMAT_SHORT_ZCL, self::FRAME_FORMAT_SHORT_ZDP)))
       return true;
 
     return false;
@@ -351,7 +351,7 @@ class APSFrame implements IFrame
       {
       case self::FRAME_FORMAT_NORMAL: $output = "Normal"; break;
       case self::FRAME_FORMAT_SHORT_ZCL: $output = "Short ZCL"; break;
-      case self::FRAME_FORMAT_SHORT_ZDO: $output = "Short ZDO"; break;
+      case self::FRAME_FORMAT_SHORT_ZDP: $output = "Short ZDP"; break;
       case self::FRAME_FORMAT_RESERVED: $output = "Reserved"; break;
       default: $output = "unknown"; break;
       }
@@ -751,7 +751,7 @@ class APSFrame implements IFrame
 
   public function setPayloadObject($object)
     {
-    if($object instanceof ZDOFrame)
+    if($object instanceof ZDPFrame)
       {
       $this->setFrameType(self::FRAME_TYPE_DATA);
       $this->setDestinationEndpoint(0x00);
@@ -772,8 +772,8 @@ class APSFrame implements IFrame
 
   public function getPayloadObject()
     {
-    if($this->isZDOPayload())
-      return new ZDOFrame($this->getPayload(), $this->getClusterId());
+    if($this->isZDPPayload())
+      return new ZDPFrame($this->getPayload(), $this->getClusterId());
     elseif($this->isZCLPayload())
       return new ZCLFrame($this->getPayload());
 
@@ -785,13 +785,13 @@ class APSFrame implements IFrame
     return Buffer::displayOctetString($this->getPayload());
     }
 
-  private function isZDOPayload()
+  private function isZDPPayload()
     {
     if($this->getFrameType() === self::FRAME_TYPE_DATA &&
         ($this->getFrameFormat() === self::FRAME_FORMAT_NORMAL &&
          $this->getProfileId() === 0x0000 &&
          $this->getDestinationEndpoint() === 0x00) ||
-       $this->getFrameFormat() === self::FRAME_FORMAT_SHORT_ZDO)
+       $this->getFrameFormat() === self::FRAME_FORMAT_SHORT_ZDP)
       return true;
 
     return false;

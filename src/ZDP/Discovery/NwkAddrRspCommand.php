@@ -1,11 +1,11 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
-use Munisense\Zigbee\ZDO\Command;
+namespace Munisense\Zigbee\ZDP\Discovery;
+use Munisense\Zigbee\ZDP\Command;
 
 /**
  * Class NwkAddrRspCommand
- * @package Munisense\Zigbee\ZDO\Discovery
+ * @package Munisense\Zigbee\ZDP\Discovery
  */
 class NwkAddrRspCommand extends AbstractAddrRspCommand
   {

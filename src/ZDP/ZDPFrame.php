@@ -1,18 +1,18 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO;
+namespace Munisense\Zigbee\ZDP;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
 
-class ZDOFrame extends AbstractFrame
+class ZDPFrame extends AbstractFrame
   {
   private $command_id = 0xffff;
   private $transaction_id = 0x00;
 
   private $payload = "";
 
-  public static function construct(IZDOCommandFrame $payload, $transaction_id = 0x00)
+  public static function construct(IZDPCommandFrame $payload, $transaction_id = 0x00)
     {
     $frame = new self;
     $frame->setPayloadObject($payload);
@@ -97,7 +97,7 @@ class ZDOFrame extends AbstractFrame
     return $this->payload;
     }
 
-  public function setPayloadObject(IZDOCommandFrame $object)
+  public function setPayloadObject(IZDPCommandFrame $object)
     {
     $this->setCommandId($object->getClusterId());
     $this->setPayload($object->getFrame());

@@ -1,6 +1,6 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
+namespace Munisense\Zigbee\ZDP\Discovery;
 
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;

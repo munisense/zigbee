@@ -1,14 +1,14 @@
 <?php
 
-namespace Munisense\Zigbee\ZDO\Discovery;
+namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\MuniZigbeeException;
-use Munisense\Zigbee\ZDO\Command;
+use Munisense\Zigbee\ZDP\Command;
 
 /**
  * Class SimpleDescReqCommand
  *
- * @package Munisense\Zigbee\ZDO\Discovery
+ * @package Munisense\Zigbee\ZDP\Discovery
  *
  * The Simple_Desc_req command is generated from a local device wishing to
  * inquire as to the simple descriptor of a remote device on a specified endpoint.
