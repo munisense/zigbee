@@ -110,12 +110,17 @@ class ZDPFrame extends AbstractFrame
     return new $class($this->getPayload());
     }
 
-  protected function findClassOfPayload()
+  public static function findClassByCluster($cluster_id)
     {
-    if(isset(Command::$command[$this->getCommandId()]))
-      return Command::$command[$this->getCommandId()]['class'];
+    if(isset(Command::$command[$cluster_id]))
+      return Command::$command[$cluster_id]['class'];
 
     throw new MuniZigbeeException("Payload class not found");
+    }
+
+  protected function findClassOfPayload()
+    {
+    return self::findClassByCluster($this->getCommandId());
     }
 
   public function displayPayload()
