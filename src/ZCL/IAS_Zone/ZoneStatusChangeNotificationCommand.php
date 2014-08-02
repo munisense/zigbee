@@ -90,7 +90,7 @@ class ZoneStatusChangeNotificationCommand extends AbstractFrame implements IZCLC
 
   public function getCommandId()
     {
-    return ClusterSpecificCommand::ZONE_STATUS_CHANGE_NOTIFICATION;
+    return IAS_Zone::ZONE_STATUS_CHANGE_NOTIFICATION;
     }
 
   public function getFrameType()

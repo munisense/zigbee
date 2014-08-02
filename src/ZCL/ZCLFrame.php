@@ -346,9 +346,9 @@ class ZCLFrame extends AbstractFrame
     // If we know the cluster, then we can look in the cluster specific commands
     elseif($cluster_id != null)
       {
-      if($cluster_id == Cluster::IAS_Zone)
-        if(isset(IAS_Zone\ClusterSpecificCommand::$command[$command_id]))
-          return IAS_Zone\ClusterSpecificCommand::$command[$command_id]["class"];
+      $cluster = Cluster::getClusterClassInstance($cluster_id);
+      $cluster_command = $cluster->getClusterSpecificCommand($command_id);
+      return $cluster_command['class'];
       }
 
     throw new MuniZigbeeException("Payload class for command ID ".$this->displayCommandId()." not found");
