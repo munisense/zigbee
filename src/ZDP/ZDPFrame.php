@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZDP;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 
 class ZDPFrame extends AbstractFrame
   {
@@ -53,7 +53,7 @@ class ZDPFrame extends AbstractFrame
     {
     $transaction_id = intval($transaction_id);
     if($transaction_id < 0x00 || $transaction_id > 0xff)
-      throw new MuniZigbeeException("Invalid transaction id: ".$transaction_id);
+      throw new ZigbeeException("Invalid transaction id: ".$transaction_id);
 
     $this->transaction_id = $transaction_id;
     }
@@ -72,7 +72,7 @@ class ZDPFrame extends AbstractFrame
     {
     $command_id = intval($command_id);
     if($command_id < 0x0000 || $command_id > 0xffff)
-      throw new MuniZigbeeException("Invalid command id");
+      throw new ZigbeeException("Invalid command id");
 
     $this->command_id = $command_id;
     }
@@ -115,7 +115,7 @@ class ZDPFrame extends AbstractFrame
     if(isset(Command::$command[$cluster_id]))
       return Command::$command[$cluster_id]['class'];
 
-    throw new MuniZigbeeException("Payload class not found");
+    throw new ZigbeeException("Payload class not found");
     }
 
   protected function findClassOfPayload()
@@ -146,4 +146,3 @@ class ZDPFrame extends AbstractFrame
     return $output;
     }
   }
-

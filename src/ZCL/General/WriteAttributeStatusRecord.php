@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\ZCLStatus;
 
 class WriteAttributeStatusRecord extends AbstractFrame
@@ -30,7 +30,7 @@ class WriteAttributeStatusRecord extends AbstractFrame
     $this->consumeFrame($frame);
 
     if(strlen($frame) > 0)
-      throw new MuniZigbeeException("Still data left in frame buffer");
+      throw new ZigbeeException("Still data left in frame buffer");
     }
 
   public function getFrame()
@@ -47,7 +47,7 @@ class WriteAttributeStatusRecord extends AbstractFrame
     {
     $attribute_id = intval($attribute_id);
     if($attribute_id < 0x0000 || $attribute_id > 0xffff)
-      throw new MuniZigbeeException("Invalid attribute id");
+      throw new ZigbeeException("Invalid attribute id");
 
     $this->attribute_id = $attribute_id;
     }
@@ -64,13 +64,13 @@ class WriteAttributeStatusRecord extends AbstractFrame
 
   /**
    * @param int $status
-   * @throws MuniZigbeeException
+   * @throws ZigbeeException
    */
   public function setStatus($status)
     {
     $status = intval($status);
     if($status < 0x00 || $status > 0xff)
-    throw new MuniZigbeeException("Invalid status");
+    throw new ZigbeeException("Invalid status");
 
     $this->status = $status;
     }
@@ -93,4 +93,3 @@ class WriteAttributeStatusRecord extends AbstractFrame
     return "AttributeId: ".$this->displayAttributeId().", Status: ".$this->displayStatus();
     }
   }
-

@@ -2,7 +2,7 @@
 
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\IZCLCommandFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
 
@@ -16,12 +16,12 @@ class WriteAttributesStructuredCommand extends AbstractFrame implements IZCLComm
   {
   public function setFrame($frame)
     {
-    throw new MuniZigbeeException(__CLASS__." is not yet implemented");
+    throw new ZigbeeException(__CLASS__." is not yet implemented");
     }
 
   public function getFrame()
     {
-    throw new MuniZigbeeException(__CLASS__." is not yet implemented");
+    throw new ZigbeeException(__CLASS__." is not yet implemented");
     }
 
   /**
@@ -42,4 +42,3 @@ class WriteAttributesStructuredCommand extends AbstractFrame implements IZCLComm
     return ZCLFrame::FRAME_TYPE_PROFILE_WIDE;
     }
   }
-

@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 
 
 class AttributeReportingConfigurationRecord extends AbstractFrame
@@ -90,7 +90,7 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
     {
     $direction = intval($direction);
     if($direction < 0x00 || $direction > 0x01)
-      throw new MuniZigbeeException("Invalid direction");
+      throw new ZigbeeException("Invalid direction");
 
     $this->direction = $direction;
     }
@@ -109,7 +109,7 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
     {
     $attribute_id = intval($attribute_id);
     if($attribute_id < 0x00 || $attribute_id > 0xffff)
-      throw new MuniZigbeeException("Invalid attribute id");
+      throw new ZigbeeException("Invalid attribute id");
 
     $this->attribute_id = $attribute_id;
     }
@@ -128,7 +128,7 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
     {
     $datatype_id = intval($datatype_id);
     if($datatype_id < 0x00 || $datatype_id > 0xff)
-      throw new MuniZigbeeException("Invalid datatype id");
+      throw new ZigbeeException("Invalid datatype id");
 
     $this->datatype_id = $datatype_id;
     }
@@ -147,7 +147,7 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
     {
     $minimum_reporting_interval = intval($minimum_reporting_interval);
     if($minimum_reporting_interval < 0x00 || $minimum_reporting_interval > 0xffff)
-      throw new MuniZigbeeException("Invalid minimum reporting interval");
+      throw new ZigbeeException("Invalid minimum reporting interval");
 
     $this->minimum_reporting_interval = $minimum_reporting_interval;
     }
@@ -166,7 +166,7 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
     {
     $maximum_reporting_interval = intval($maximum_reporting_interval);
     if($maximum_reporting_interval < 0x00 || $maximum_reporting_interval > 0xffff)
-      throw new MuniZigbeeException("Invalid maximum reporting interval");
+      throw new ZigbeeException("Invalid maximum reporting interval");
 
     $this->maximum_reporting_interval = $maximum_reporting_interval;
     }
@@ -203,7 +203,7 @@ class AttributeReportingConfigurationRecord extends AbstractFrame
     {
     $timeout_period = intval($timeout_period);
     if($timeout_period < 0x00 || $timeout_period > 0xffff)
-      throw new MuniZigbeeException("Invalid timeout period");
+      throw new ZigbeeException("Invalid timeout period");
 
     $this->timeout_period = $timeout_period;
     }

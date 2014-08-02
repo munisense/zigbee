@@ -4,7 +4,7 @@ namespace Munisense\Zigbee\ZDP\Discovery;
 
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 
 class SimpleDescriptor extends AbstractFrame
   {
@@ -103,14 +103,14 @@ class SimpleDescriptor extends AbstractFrame
 
   /**
    * @param $application_device_version
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setApplicationDeviceVersion($application_device_version)
     {
     if($application_device_version >= 0b00000000 && $application_device_version <= 0b00001111)
       $this->application_device_version = $application_device_version;
     else
-      throw new MuniZigbeeException("Application Device Version must be in the range of 0 - 10");
+      throw new ZigbeeException("Application Device Version must be in the range of 0 - 10");
     }
 
   /**

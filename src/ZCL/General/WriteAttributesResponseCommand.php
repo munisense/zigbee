@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\IZCLCommandFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
 use Munisense\Zigbee\ZCL\ZCLStatus;
@@ -45,7 +45,7 @@ class WriteAttributesResponseCommand extends AbstractFrame implements IZCLComman
       {
       $status = Buffer::unpackInt8u($frame);
       if($status != ZCLStatus::SUCCESS)
-        throw new MuniZigbeeException("If a ".__CLASS__." only has one byte, it should be the SUCCESS status");
+        throw new ZigbeeException("If a ".__CLASS__." only has one byte, it should be the SUCCESS status");
 
       return;
       }
@@ -88,7 +88,7 @@ class WriteAttributesResponseCommand extends AbstractFrame implements IZCLComman
   public function addWriteAttributeStatusRecord(WriteAttributeStatusRecord $write_attribute_status_record)
     {
     if($write_attribute_status_record->getStatus() == ZCLStatus::SUCCESS)
-      throw new MuniZigbeeException("Attributes with status SUCCESS should be omitted");
+      throw new ZigbeeException("Attributes with status SUCCESS should be omitted");
 
     $this->write_attribute_status_records[] = $write_attribute_status_record;
     }

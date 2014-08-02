@@ -2,8 +2,6 @@
 
 namespace Munisense\Zigbee\ZCL\General;
 
-use Munisense\Zigbee\ZCL\ZCLStatus;
-
 class AttributeReportingConfigurationRecordTest extends \PHPUnit_Framework_TestCase
   {
   public function testConstructReceived()

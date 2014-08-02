@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\IZCLCommandFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
 use Munisense\Zigbee\ZCL\ZCLStatus;
@@ -44,7 +44,7 @@ class ConfigureReportingResponseCommand extends AbstractFrame implements IZCLCom
       {
       $status = Buffer::unpackInt8u($frame);
       if($status != ZCLStatus::SUCCESS)
-        throw new MuniZigbeeException("If a ".__CLASS__." only has one byte, it should be the SUCCESS status");
+        throw new ZigbeeException("If a ".__CLASS__." only has one byte, it should be the SUCCESS status");
 
       return;
       }

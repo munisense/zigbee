@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\IZDPCommandFrame;
 use Munisense\Zigbee\ZDP\Status;
 
@@ -143,7 +143,7 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
     if($assoc_dev >= 0x0000 && $assoc_dev <= 0xffff)
       $this->associated_device_list[] = $assoc_dev;
     else
-      throw new MuniZigbeeException("Associated Device should be an identifier between 0x0000 and 0xffff");
+      throw new ZigbeeException("Associated Device should be an identifier between 0x0000 and 0xffff");
     }
 
   /**
@@ -202,14 +202,14 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
 
   /**
    * @param $status
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setStatus($status)
     {
     if(in_array($status, self::$allowed_statusses))
       $this->status = $status;
     else
-      throw new MuniZigbeeException("Invalid status supplied");
+      throw new ZigbeeException("Invalid status supplied");
     }
 
   public function displayStatus()
@@ -226,7 +226,7 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
     {
     $start_index = intval($start_index);
     if($start_index < 0x00 || $start_index > 0xff)
-      throw new MuniZigbeeException("Invalid start index");
+      throw new ZigbeeException("Invalid start index");
 
     $this->start_index = $start_index;
     }
@@ -264,4 +264,3 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
     return $output;
     }
   }
-

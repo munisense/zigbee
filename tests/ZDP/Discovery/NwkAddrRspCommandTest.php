@@ -2,7 +2,7 @@
 
 namespace Munisense\Zigbee\ZDP\Discovery;
 
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\Status;
 use Munisense\Zigbee\ZDP\ZDPFrame;
 
@@ -16,8 +16,8 @@ class NwkAddrRspCommandTest extends \PHPUnit_Framework_TestCase
     }
 
   /**
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
-   * @expectedException \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
+   * @expectedException \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function testSetStatus_InvalidInput()
     {
@@ -65,7 +65,7 @@ class NwkAddrRspCommandTest extends \PHPUnit_Framework_TestCase
     }
 
   /**
-   * @expectedException MuniZigbeeException
+   * @expectedException ZigbeeException
    */
   public function addInvalidAssociatedDevice()
     {

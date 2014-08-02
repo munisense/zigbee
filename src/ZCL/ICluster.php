@@ -4,7 +4,7 @@
  */
 namespace Munisense\Zigbee\ZCL;
 
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 
 interface ICluster
   {
@@ -22,7 +22,7 @@ interface ICluster
   /**
    * @param $command_id
    * @return array
-   * @throws MuniZigbeeException If there is no command with that ID for this cluster
+   * @throws ZigbeeException If there is no command with that ID for this cluster
    */
   public function getClusterSpecificCommand($command_id);
   }

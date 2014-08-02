@@ -35,7 +35,7 @@ class ZoneStatusChangeNotificationCommandTest extends \PHPUnit_Framework_TestCas
     /**
      * @var $output ZoneStatusChangeNotificationCommand
      */
-    $output = $zcl_frame->getPayloadObject(Cluster::IAS_Zone);
+    $output = $zcl_frame->getPayloadObject(Cluster::IAS_ZONE);
     $this->assertInstanceOf("Munisense\\Zigbee\\ZCL\\IAS_Zone\\ZoneStatusChangeNotificationCommand", $output);
     $this->assertEquals($bytes, $output->getFrame());
     }

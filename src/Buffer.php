@@ -1144,6 +1144,7 @@ class Buffer
     if($sign === "s" && bccomp(0, $value) === 1)
       $value = bcsub($full, str_replace("-", "", $value));
 
+    $bytes = [];
     for($x = $size - 1; $x >= 0; $x--)
       {
       $bytes[$x] = bcdiv($value, bcpow(2, 8 * $x), 0);
@@ -1255,7 +1256,7 @@ class Buffer
         $hundredths -= ($x * $timevalue);
         }
 
-    if($str)
+    if(isset($str))
       return join(", ", $str);
     else
       return "<1 100th";
@@ -1274,7 +1275,7 @@ class Buffer
       $seconds = floor($hundredths / 100);
       $hundredths -= $seconds * 100;
       }
-    elseif($hundredths != "" && preg_match("/(([0-9]+)\s*hours?\s*,\s*)?(([0-9]+)\s*mins?\s*,\s*)?(([0-9]+)\s*secs?\s*,\s*)?(([0-9]+)\s*100ths?)?/", $hundredths, $match))
+    elseif($hundredths != "" && preg_match('/(([0-9]+)\s*hours?\s*,\s*)?(([0-9]+)\s*mins?\s*,\s*)?(([0-9]+)\s*secs?\s*,\s*)?(([0-9]+)\s*100ths?)?/', $hundredths, $match))
       {
       $hours = $match[2] ? $match[2] : 0;
       $minutes = $match[4] ? $match[4] : 0;
@@ -1297,7 +1298,7 @@ class Buffer
     $year = self::unpackInt8u($buffer);
     $month = self::unpackInt8u($buffer);
     $day = self::unpackInt8u($buffer);
-    $weekday = self::unpackInt8u($buffer);
+    self::unpackInt8u($buffer); // weekday
   
     return mktime(0, 0, 0, $month, $day, $year + 1900);
     }
@@ -1472,6 +1473,7 @@ class Buffer
 
   static function displayOctetString($value, $with_size = false)
     {
+    $output = [];
     for($x = 0; $x < strlen($value); $x++)
       $output[] = sprintf("0x%02x", ord($value[$x]));
 
@@ -1627,7 +1629,7 @@ class Buffer
     {
     $buffer = substr($buffer, 2);
 
-    // Not implemented
+    assert(true, "Unable to unpackFloat16, not implemented.");
 
     return null;
     }
@@ -1636,7 +1638,7 @@ class Buffer
     {
     $buffer .= self::packNull($buffer, 2);
 
-    // Not implemented
+    assert(true, "Unable to packFloat16, not implemented. [".$value."]");
 
     return null;
     }

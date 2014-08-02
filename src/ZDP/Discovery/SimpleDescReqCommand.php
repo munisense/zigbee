@@ -2,7 +2,7 @@
 
 namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\Command;
 
 /**
@@ -57,14 +57,14 @@ class SimpleDescReqCommand extends AbstractNWKAddrOfInterestReqCommand
 
   /**
    * @param int $endpoint
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setEndpoint($endpoint)
     {
     if($endpoint >= 1 && $endpoint <= 240)
       $this->endpoint = $endpoint;
     else
-      throw new MuniZigbeeException("Endpoint must be between 1 and 240");
+      throw new ZigbeeException("Endpoint must be between 1 and 240");
     }
 
   public function displayEndpoint()

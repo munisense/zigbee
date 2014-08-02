@@ -24,7 +24,7 @@ class ActiveEPRspCommandTest extends \PHPUnit_Framework_TestCase
     }
 
   /**
-   * @expectedException \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @expectedException \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function testInvalidEP()
     {
