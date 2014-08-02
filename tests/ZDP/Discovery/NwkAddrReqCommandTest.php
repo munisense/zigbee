@@ -7,8 +7,8 @@ use Munisense\Zigbee\ZDP\ZDPFrame;
 class NwkAddrReqCommandTest extends \PHPUnit_Framework_TestCase
   {
   /**
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
-   * @expectedException \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
+   * @expectedException \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function testSetIEEEAddress_InvalidInput()
     {

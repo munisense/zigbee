@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\Command;
 use Munisense\Zigbee\ZDP\IZDPCommandFrame;
 
@@ -68,7 +68,7 @@ class NwkAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
     if($ieee_address > 0x0000000000000000 && $ieee_address <= 0xffffffffffffffff)
       $this->ieee_address = $ieee_address;
     else
-      throw new MuniZigbeeException("Invalid IEEE Address");
+      throw new ZigbeeException("Invalid IEEE Address");
     }
 
   public function getIeeeAddress()
@@ -84,7 +84,7 @@ class NwkAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
   public function setRequestType($request_type)
     {
     if(!in_array($request_type, array(self::REQUEST_TYPE_SINGLE, self::REQUEST_TYPE_EXTENDED)))
-      throw new MuniZigbeeException("Invalid request type");
+      throw new ZigbeeException("Invalid request type");
 
     $this->request_type = $request_type;
     }
@@ -111,7 +111,7 @@ class NwkAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
     {
     $start_index = intval($start_index);
     if($start_index < 0x00 || $start_index > 0xff)
-      throw new MuniZigbeeException("Invalid start index");
+      throw new ZigbeeException("Invalid start index");
 
     $this->start_index = $start_index;
     }

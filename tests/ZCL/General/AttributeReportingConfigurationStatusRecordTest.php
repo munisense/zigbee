@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 
 
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\ZCLStatus;
 
 class AttributeReportingConfigurationStatusRecordTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +33,7 @@ class AttributeReportingConfigurationStatusRecordTest extends \PHPUnit_Framework
         $record->setStatus($disallowed_status);
         $this->fail("setStatus should not accept status " . ZCLStatus::displayStatus($disallowed_status));
         }
-      catch(MuniZigbeeException $e) {}
+      catch(ZigbeeException $e) {}
       }
     }
 

@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\SMS;
 use Munisense\Zigbee\APS\APSFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\IFrame;
 
 class SMSTazBlock implements IFrame
@@ -38,8 +38,8 @@ class SMSTazBlock implements IFrame
 
   public function __construct($frame = null)
     {
-    if ($frame !== null)
-    $this->setFrame($frame);
+    if($frame !== null)
+      $this->setFrame($frame);
     }
 
   public function setFrame($frame)
@@ -47,17 +47,17 @@ class SMSTazBlock implements IFrame
     $this->setTazHeader(Buffer::unpackInt8u($frame));
     $length = Buffer::unpackInt8u($frame);
 
-    if ($length !== strlen($frame))
-    throw new MuniZigbeeException("Invalid length in length field");
+    if($length !== strlen($frame))
+      throw new ZigbeeException("Invalid length in length field");
 
-    if ($this->getRequestTimestampPresent())
-    $this->setRequestTimestamp(Buffer::unpackUTC($frame) + self::MILLENNIUM_EPOCH);
+    if($this->getRequestTimestampPresent())
+      $this->setRequestTimestamp(Buffer::unpackUTC($frame) + self::MILLENNIUM_EPOCH);
 
-    if ($this->getExecuteTimestampPresent())
-    $this->setExecuteTimestamp(Buffer::unpackUTC($frame) + self::MILLENNIUM_EPOCH);
+    if($this->getExecuteTimestampPresent())
+      $this->setExecuteTimestamp(Buffer::unpackUTC($frame) + self::MILLENNIUM_EPOCH);
 
-    if ($this->getEndTimestampPresent())
-    $this->setEndTimestamp(Buffer::unpackUTC($frame) + self::MILLENNIUM_EPOCH);
+    if($this->getEndTimestampPresent())
+      $this->setEndTimestamp(Buffer::unpackUTC($frame) + self::MILLENNIUM_EPOCH);
 
     $this->setPayload($frame);
     }
@@ -65,14 +65,14 @@ class SMSTazBlock implements IFrame
   public function getFrame()
     {
     $subframe = "";
-    if ($this->getRequestTimestampPresent())
-    Buffer::packUTC($subframe, $this->getRequestTimestamp() - self::MILLENNIUM_EPOCH);
+    if($this->getRequestTimestampPresent())
+      Buffer::packUTC($subframe, $this->getRequestTimestamp() - self::MILLENNIUM_EPOCH);
 
-    if ($this->getExecuteTimestampPresent())
-    Buffer::packUTC($subframe, $this->getExecuteTimestamp() - self::MILLENNIUM_EPOCH);
+    if($this->getExecuteTimestampPresent())
+      Buffer::packUTC($subframe, $this->getExecuteTimestamp() - self::MILLENNIUM_EPOCH);
 
-    if ($this->getEndTimestampPresent())
-    Buffer::packUTC($subframe, $this->getEndTimestamp() - self::MILLENNIUM_EPOCH);
+    if($this->getEndTimestampPresent())
+      Buffer::packUTC($subframe, $this->getEndTimestamp() - self::MILLENNIUM_EPOCH);
 
     $subframe .= $this->getPayload();
 
@@ -93,8 +93,8 @@ class SMSTazBlock implements IFrame
     {
     $taz_header = intval($taz_header);
 
-    if ($taz_header < 0x00 || $taz_header > 0xff)
-    throw new MuniZigbeeException("Invalid taz header");
+    if($taz_header < 0x00 || $taz_header > 0xff)
+      throw new ZigbeeException("Invalid taz header");
 
     $this->setRequestTimestampPresent(($taz_header >> 0) & 0x01);
     $this->setExecuteTimestampPresent(($taz_header >> 1) & 0x01);
@@ -106,10 +106,10 @@ class SMSTazBlock implements IFrame
   public function getTazHeader()
     {
     return ($this->getRequestTimestampPresent() & 0x01) << 0 |
-    ($this->getExecuteTimestampPresent() & 0x01) << 1 |
-    ($this->getEndTimestampPresent() & 0x01) << 2 |
-    ($this->getApsFormat() & 0x03) << 3 |
-    ($this->taz_header_reserved & 0x07) << 5;
+           ($this->getExecuteTimestampPresent() & 0x01) << 1 |
+           ($this->getEndTimestampPresent() & 0x01) << 2 |
+           ($this->getApsFormat() & 0x03) << 3 |
+           ($this->taz_header_reserved & 0x07) << 5;
     }
 
   public function displayTazHeader()
@@ -135,18 +135,20 @@ class SMSTazBlock implements IFrame
   public function displayRequestTimestampPresent()
     {
     $request_timestamp_present = $this->getRequestTimestampPresent();
-    switch ($request_timestamp_present)
-    {
+    switch($request_timestamp_present)
+      {
       case self::REQUEST_TIMESTAMP_NOT_PRESENT:
         $output = "Not Present";
         break;
+
       case self::REQUEST_TIMESTAMP_IS_PRESENT:
         $output = "Present";
         break;
+
       default:
         $output = "unknown";
         break;
-    }
+      }
 
     return sprintf("%s (0x%02x)", $output, $request_timestamp_present);
     }
@@ -164,18 +166,20 @@ class SMSTazBlock implements IFrame
   public function displayExecuteTimestampPresent()
     {
     $execute_timestamp_present = $this->getExecuteTimestampPresent();
-    switch ($execute_timestamp_present)
-    {
+    switch($execute_timestamp_present)
+      {
       case self::EXECUTE_TIMESTAMP_NOT_PRESENT:
         $output = "Not Present";
         break;
+
       case self::EXECUTE_TIMESTAMP_IS_PRESENT:
         $output = "Present";
         break;
+
       default:
         $output = "unknown";
         break;
-    }
+      }
 
     return sprintf("%s (0x%02x)", $output, $execute_timestamp_present);
     }
@@ -194,25 +198,27 @@ class SMSTazBlock implements IFrame
     {
     $end_timestamp_present = $this->getEndTimestampPresent();
     switch ($end_timestamp_present)
-    {
+      {
       case self::END_TIMESTAMP_NOT_PRESENT:
         $output = "Not Present";
         break;
+
       case self::END_TIMESTAMP_IS_PRESENT:
         $output = "Present";
         break;
+
       default:
         $output = "unknown";
         break;
-    }
+      }
 
     return sprintf("%s (0x%02x)", $output, $end_timestamp_present);
     }
 
   public function setApsFormat($aps_format)
     {
-    if (!in_array($aps_format, array(self::APS_FORMAT_SHORT_ZCL, self::APS_FORMAT_SHORT_ZDP, self::APS_FORMAT_NORMAL)))
-    throw new MuniZigbeeException("Invalid aps format");
+    if(!in_array($aps_format, array(self::APS_FORMAT_SHORT_ZCL, self::APS_FORMAT_SHORT_ZDP, self::APS_FORMAT_NORMAL)))
+      throw new ZigbeeException("Invalid aps format");
 
     $this->aps_format = $aps_format;
     }
@@ -226,33 +232,37 @@ class SMSTazBlock implements IFrame
     {
     $aps_format = $this->getApsFormat();
     switch ($aps_format)
-    {
+      {
       case self::APS_FORMAT_NORMAL:
         $output = "Normal";
         break;
+
       case self::APS_FORMAT_SHORT_ZCL:
         $output = "Short ZCL";
         break;
+
       case self::APS_FORMAT_SHORT_ZDP:
         $output = "Short ZDP";
         break;
+
       case self::APS_FORMAT_RESERVED:
         $output = "Reserved";
         break;
+
       default:
         $output = "unknown";
         break;
-    }
+      }
 
     return sprintf("%s (0x%02x)", $output, $aps_format);
     }
 
   public function setRequestTimestamp($request_timestamp)
     {
-    if (!preg_match("/^[0-9]+$/", $request_timestamp))
-    throw new MuniZigbeeException("Invalid timestamp");
-    elseif ($request_timestamp < self::MILLENNIUM_EPOCH)
-    throw new MuniZigbeeException("Timestamp must be from Y2K");
+    if(!preg_match("/^[0-9]+$/", $request_timestamp))
+      throw new ZigbeeException("Invalid timestamp");
+    elseif($request_timestamp < self::MILLENNIUM_EPOCH)
+      throw new ZigbeeException("Timestamp must be from Y2K");
 
     $this->request_timestamp = $request_timestamp;
     }
@@ -269,10 +279,10 @@ class SMSTazBlock implements IFrame
 
   public function setExecuteTimestamp($execute_timestamp)
     {
-    if (!preg_match("/^[0-9]+$/", $execute_timestamp))
-    throw new MuniZigbeeException("Invalid timestamp");
-    elseif ($execute_timestamp < self::MILLENNIUM_EPOCH)
-    throw new MuniZigbeeException("Timestamp must be from Y2K");
+    if(!preg_match("/^[0-9]+$/", $execute_timestamp))
+      throw new ZigbeeException("Invalid timestamp");
+    elseif($execute_timestamp < self::MILLENNIUM_EPOCH)
+      throw new ZigbeeException("Timestamp must be from Y2K");
 
     $this->execute_timestamp = $execute_timestamp;
     }
@@ -289,10 +299,10 @@ class SMSTazBlock implements IFrame
 
   public function setEndTimestamp($end_timestamp)
     {
-    if (!preg_match("/^[0-9]+$/", $end_timestamp))
-    throw new MuniZigbeeException("Invalid timestamp");
-    elseif ($end_timestamp < self::MILLENNIUM_EPOCH)
-    throw new MuniZigbeeException("Timestamp must be from Y2K");
+    if(!preg_match("/^[0-9]+$/", $end_timestamp))
+      throw new ZigbeeException("Invalid timestamp");
+    elseif($end_timestamp < self::MILLENNIUM_EPOCH)
+      throw new ZigbeeException("Timestamp must be from Y2K");
 
     $this->end_timestamp = $end_timestamp;
     }
@@ -344,28 +354,28 @@ class SMSTazBlock implements IFrame
       $output .= "|  |- EndTimePres   : " . $this->displayEndTimestampPresent() . PHP_EOL;
       $output .= "|  `- ApsFormat     : " . $this->displayApsFormat() . PHP_EOL;
 
-      if ($this->getRequestTimestampPresent())
-      $output .= "|- RequestTimestamp : " . $this->displayRequestTimestamp() . PHP_EOL;
+      if($this->getRequestTimestampPresent())
+        $output .= "|- RequestTimestamp : " . $this->displayRequestTimestamp() . PHP_EOL;
 
-      if ($this->getExecuteTimestampPresent())
-      $output .= "|- ExecuteTimestamp : " . $this->displayExecuteTimestamp() . PHP_EOL;
+      if($this->getExecuteTimestampPresent())
+        $output .= "|- ExecuteTimestamp : " . $this->displayExecuteTimestamp() . PHP_EOL;
 
-      if ($this->getEndTimestampPresent())
-      $output .= "|- EndTimestamp     : " . $this->displayEndTimestamp() . PHP_EOL;
+      if($this->getEndTimestampPresent())
+        $output .= "|- EndTimestamp     : " . $this->displayEndTimestamp() . PHP_EOL;
 
       $output .= "|- Payload (length: " . strlen($this->getPayload()) . ")" . PHP_EOL;
       try
         {
         $output .= preg_replace("/^   /", "`- ", preg_replace("/^/m", "   ", $this->getPayloadObject()));
         }
-      catch (MuniZigbeeException $e)
+      catch(ZigbeeException $e)
         {
         $output .= "`-> " . $this->displayPayload() . PHP_EOL;
         }
 
       return $output;
       }
-    catch (MuniZigbeeException $e)
+    catch(ZigbeeException $e)
       {
       return $e;
       }

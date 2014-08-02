@@ -2,7 +2,7 @@
 
 namespace Munisense\Zigbee\ZCL\IAS_Zone;
 
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\ICluster;
 
 class IAS_Zone implements ICluster
@@ -14,8 +14,8 @@ class IAS_Zone implements ICluster
   const ZONE_ENROLL_REQUEST = 0x01;
 
   protected static $command = array(
-      self::ZONE_STATUS_CHANGE_NOTIFICATION => array("class" => "Munisense\\Zigbee\\ZCL\\IAS_Zone\\ZoneStatusChangeNotificationCommand", "name" => "Zone Status Change Notification"),
-      self::ZONE_ENROLL_REQUEST => array("class" => "Munisense\\Zigbee\\ZCL\\IAS_Zone\\ZoneEnrollRequestCommand", "name" => "Zone Enroll Request"),
+      self::ZONE_STATUS_CHANGE_NOTIFICATION => array("class" => 'Munisense\Zigbee\ZCL\IAS_Zone\ZoneStatusChangeNotificationCommand', "name" => "Zone Status Change Notification"),
+      self::ZONE_ENROLL_REQUEST => array("class" => 'Munisense\Zigbee\ZCL\IAS_Zone\ZoneEnrollRequestCommand', "name" => "Zone Enroll Request"),
   );
 
   public static function displayCommand($command_id)
@@ -46,6 +46,6 @@ class IAS_Zone implements ICluster
     if(isset(self::$command[$command_id]))
       return self::$command[$command_id];
     else
-      throw new MuniZigbeeException("Cluster specific command ".$command_id." not found in ".__CLASS__);
+      throw new ZigbeeException("Cluster specific command ".$command_id." not found in ".__CLASS__);
     }
   }

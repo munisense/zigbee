@@ -2,7 +2,6 @@
 
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
-use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\ZCL\IZCLCommandFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
 

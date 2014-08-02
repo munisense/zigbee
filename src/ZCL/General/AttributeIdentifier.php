@@ -3,8 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
-use Munisense\Zigbee\IFrame;
+use Munisense\Zigbee\Exception\ZigbeeException;
 
 class AttributeIdentifier extends AbstractFrame
   {
@@ -35,7 +34,7 @@ class AttributeIdentifier extends AbstractFrame
     {
     $attribute_id = intval($attribute_id);
     if($attribute_id < 0x00 || $attribute_id > 0xffff)
-      throw new MuniZigbeeException("Invalid attribute id");
+      throw new ZigbeeException("Invalid attribute id");
 
     $this->attribute_id = $attribute_id;
     }

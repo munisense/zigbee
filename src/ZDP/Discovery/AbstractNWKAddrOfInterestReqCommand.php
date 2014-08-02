@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\IZDPCommandFrame;
 
 /**
@@ -34,7 +34,7 @@ abstract class AbstractNWKAddrOfInterestReqCommand extends AbstractFrame impleme
     if($nwk_address >= 0x0000 && $nwk_address <= 0xffff)
       $this->nwk_address_of_interest = $nwk_address;
     else
-      throw new MuniZigbeeException("Invalid nwk address");
+      throw new ZigbeeException("Invalid nwk address");
     }
 
   public function getNwkAddressOfInterest()

@@ -4,7 +4,7 @@ namespace Munisense\Zigbee\ZCL;
 
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\General;
 
 
@@ -46,7 +46,7 @@ class ZCLFrame extends AbstractFrame
    * @param int $disable_default_response Disable default response
    * @param int $transaction_id Optional Transaction ID
    * @return ZCLFrame The Constructed ZCLFrame
-   * @throws MuniZigbeeException If there were problems with composing the ZCL Frame
+   * @throws ZigbeeException If there were problems with composing the ZCL Frame
    */
   public static function construct(IZCLCommandFrame $payload = null, $manufacturer_id = null,
                                    $direction = self::DIRECTION_SERVER_TO_CLIENT,
@@ -115,7 +115,7 @@ class ZCLFrame extends AbstractFrame
     $frame_control = intval($frame_control);
 
     if($frame_control < 0x00 || $frame_control > 0xff)
-      throw new MuniZigbeeException("Invalid frame control");
+      throw new ZigbeeException("Invalid frame control");
 
     $this->setFrameType(($frame_control >> 0) & 0x03);
     $this->setManufacturerIdPresent(($frame_control >> 2) & 0x01);
@@ -143,7 +143,7 @@ class ZCLFrame extends AbstractFrame
     $frame_type = intval($frame_type);
 
     if($frame_type < 0x00 || $frame_type > 0x02)
-      throw new MuniZigbeeException("Invalid frame type");
+      throw new ZigbeeException("Invalid frame type");
 
     $this->frame_type = $frame_type;
     }
@@ -242,7 +242,7 @@ class ZCLFrame extends AbstractFrame
     {
     $manufacturer_id = intval($manufacturer_id);
     if($manufacturer_id < 0x00 || $manufacturer_id > 0xffff)
-      throw new MuniZigbeeException("Invalid manufacturer id");
+      throw new ZigbeeException("Invalid manufacturer id");
 
     $this->manufacturer_id = $manufacturer_id;
     }
@@ -261,7 +261,7 @@ class ZCLFrame extends AbstractFrame
     {
     $transaction_id = intval($transaction_id);
     if($transaction_id < 0x00 || $transaction_id > 0xff)
-      throw new MuniZigbeeException("Invalid transaction id");
+      throw new ZigbeeException("Invalid transaction id");
 
     $this->transaction_id = $transaction_id;
     }
@@ -280,7 +280,7 @@ class ZCLFrame extends AbstractFrame
     {
     $command_id = intval($command_id);
     if($command_id < 0x00 || $command_id > 0xff)
-      throw new MuniZigbeeException("Invalid command id");
+      throw new ZigbeeException("Invalid command id");
 
     $this->command_id = $command_id;
     }
@@ -334,7 +334,7 @@ class ZCLFrame extends AbstractFrame
    * @param int $frame_type
    * @param int $cluster_id
    * @return string Classname
-   * @throws MuniZigbeeException When no class could be found
+   * @throws ZigbeeException When no class could be found
    */
   protected function findClassOfPayload($command_id, $frame_type = self::FRAME_TYPE_PROFILE_WIDE, $cluster_id = null)
     {
@@ -346,12 +346,12 @@ class ZCLFrame extends AbstractFrame
     // If we know the cluster, then we can look in the cluster specific commands
     elseif($cluster_id != null)
       {
-      $cluster = Cluster::getClusterClassInstance($cluster_id);
+      $cluster = ClusterFactory::getClusterClassInstance($cluster_id);
       $cluster_command = $cluster->getClusterSpecificCommand($command_id);
       return $cluster_command['class'];
       }
 
-    throw new MuniZigbeeException("Payload class for command ID ".$this->displayCommandId()." not found");
+    throw new ZigbeeException("Payload class for command ID ".$this->displayCommandId()." not found");
     }
 
   public function displayPayload()
@@ -385,4 +385,3 @@ class ZCLFrame extends AbstractFrame
     return $output;
     }
   }
-
