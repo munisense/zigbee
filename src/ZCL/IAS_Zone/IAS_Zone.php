@@ -2,50 +2,28 @@
 
 namespace Munisense\Zigbee\ZCL\IAS_Zone;
 
-use Munisense\Zigbee\Exception\ZigbeeException;
-use Munisense\Zigbee\ZCL\ICluster;
+use Munisense\Zigbee\ZCL\ClusterBase;
 
-class IAS_Zone implements ICluster
+class IAS_Zone extends ClusterBase
   {
   const CLUSTER_ID = 0x0500;
-  const NAME = "IAS security zone devices";
+  const NAME = "IAS Zone";
 
-  const ZONE_STATUS_CHANGE_NOTIFICATION = 0x00;
-  const ZONE_ENROLL_REQUEST = 0x01;
+  const ZONE_STATE_ATTRIBUTE = 0x0000;
+  const ZONE_TYPE_ATTRIBUTE = 0x0001;
+  const ZONE_STATUS_ATTRIBUTE = 0x0002;
+  const IAS_CIE_ADDRESS_ATTRIBUTE = 0x0010;
+
+  public static $attribute = [
+    self::ZONE_STATE_ATTRIBUTE => ["name" => "ZoneState", "description" => "", "datatype_id" => 0x30],
+    self::ZONE_TYPE_ATTRIBUTE => ["name" => "ZoneType", "description" => "", "datatype_id" => 0x31],
+    self::ZONE_STATUS_ATTRIBUTE => ["name" => "ZoneStatus", "description" => "", "datatype_id" => 0x19],
+    self::IAS_CIE_ADDRESS_ATTRIBUTE => ["name" => "IasCieAddress", "description" => "", "datatype_id" => 0xf0],
+  ];
+
+  const ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND = ZoneStatusChangeNotificationCommand::COMMAND_ID;
 
   protected static $command = array(
-      self::ZONE_STATUS_CHANGE_NOTIFICATION => array("class" => 'Munisense\Zigbee\ZCL\IAS_Zone\ZoneStatusChangeNotificationCommand', "name" => "Zone Status Change Notification"),
-      self::ZONE_ENROLL_REQUEST => array("class" => 'Munisense\Zigbee\ZCL\IAS_Zone\ZoneEnrollRequestCommand', "name" => "Zone Enroll Request"),
+      ZoneStatusChangeNotificationCommand::COMMAND_ID => 'Munisense\Zigbee\ZCL\IAS_Zone\ZoneStatusChangeNotificationCommand',
   );
-
-  public static function displayCommand($command_id)
-    {
-    if(isset(self::$command[$command_id]))
-      return self::$command[$command_id]['name'];
-    else
-      return "Unknown (".sprintf("0x%02x", $command_id).")";
-    }
-
-  public function getName()
-    {
-    return self::NAME;
-    }
-
-  public function getClusterId()
-    {
-    return self::CLUSTER_ID;
-    }
-
-  public function getClusterSpecificCommands()
-    {
-    return self::$command;
-    }
-
-  public function getClusterSpecificCommand($command_id)
-    {
-    if(isset(self::$command[$command_id]))
-      return self::$command[$command_id];
-    else
-      throw new ZigbeeException("Cluster specific command ".$command_id." not found in ".__CLASS__);
-    }
   }

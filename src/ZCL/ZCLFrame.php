@@ -348,7 +348,7 @@ class ZCLFrame extends AbstractFrame
       {
       $cluster = ClusterFactory::getClusterClassInstance($cluster_id);
       $cluster_command = $cluster->getClusterSpecificCommand($command_id);
-      return $cluster_command['class'];
+      return $cluster_command;
       }
 
     throw new ZigbeeException("Payload class for command ID ".$this->displayCommandId()." not found");

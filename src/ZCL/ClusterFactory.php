@@ -11,14 +11,14 @@ class ClusterFactory
   {
   /**
    * @param $cluster_id
-   * @return ICluster
+   * @return ClusterBase
    * @throws ZigbeeException
    */
   public static function getClusterClassInstance($cluster_id)
     {
-    if(isset(Cluster::$cluster[$cluster_id]))
-      return new Cluster::$cluster[$cluster_id]['class']();
-    else
+    if(!isset(Cluster::$cluster[$cluster_id]))
       throw new ZigbeeException("Cluster ".sprintf("0x%04x", $cluster_id)." not found");
+
+    return new Cluster::$cluster[$cluster_id]();
     }
   }
