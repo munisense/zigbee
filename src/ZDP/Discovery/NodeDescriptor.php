@@ -10,8 +10,6 @@ use Munisense\Zigbee\Exception\ZigbeeException;
  * Class NodeDescriptor
  *
  * @package Munisense\Zigbee\ZDP\Discovery
- *
- * Note: This class is still under active development and should not be used in production.
  */
 class NodeDescriptor extends AbstractFrame
   {
@@ -60,7 +58,6 @@ class NodeDescriptor extends AbstractFrame
   const FREQUENCY_SUPPORTED_868MHZ = 0;
   const FREQUENCY_SUPPORTED_902_928MHZ = 2;
   const FREQUENCY_SUPPORTED_2400_2483MHZ = 3;
-
 
   /**
    * The alternate PAN coordinator sub-field is one bit in length and shall be set to 1 if
@@ -180,7 +177,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @return mixed
+   * @return int 0 When not available, 1 when available
    */
   public function getExtendedActiveEndpointListAvailable()
     {
@@ -188,7 +185,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $extended_active_endpoint_list_available
+   * @param int $extended_active_endpoint_list_available 0 When not available, 1 when available
    */
   public function setExtendedActiveEndpointListAvailable($extended_active_endpoint_list_available)
     {
@@ -196,7 +193,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @return mixed
+   * @return int 0 When not available, 1 when available
    */
   public function getExtendedSimpleDescriptorListAvailable()
     {
@@ -204,7 +201,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $extended_simple_descriptor_list_available
+   * @param int $extended_simple_descriptor_list_available 0 When not available, 1 when available
    */
   public function setExtendedSimpleDescriptorListAvailable($extended_simple_descriptor_list_available)
     {
@@ -220,6 +217,8 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
+   * A bitmap of frequencies. See constants that start with FREQUENCY.
+   *
    * @param int $frequency_band
    */
   public function setFrequencyBand($frequency_band)
@@ -237,6 +236,7 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $logical_type
+   *
    * @throws ZigbeeException
    */
   public function setLogicalType($logical_type)
@@ -352,7 +352,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $manufacturer_code
+   * @param int $manufacturer_code
    */
   public function setManufacturerCode($manufacturer_code)
     {
@@ -360,7 +360,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @return mixed
+   * @return int
    */
   public function getMaximumBufferSize()
     {
@@ -368,7 +368,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $maximum_buffer_size
+   * @param int $maximum_buffer_size
    */
   public function setMaximumBufferSize($maximum_buffer_size)
     {
@@ -376,7 +376,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @return mixed
+   * @return int
    */
   public function getMaximumIncomingTransferSize()
     {
@@ -384,7 +384,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $maximum_incoming_transfer_size
+   * @param int $maximum_incoming_transfer_size
    */
   public function setMaximumIncomingTransferSize($maximum_incoming_transfer_size)
     {
@@ -392,7 +392,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @return mixed
+   * @return int
    */
   public function getMaximumOutgoingTransferSize()
     {
@@ -400,7 +400,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $maximum_outgoing_transfer_size
+   * @param int $maximum_outgoing_transfer_size
    */
   public function setMaximumOutgoingTransferSize($maximum_outgoing_transfer_size)
     {
@@ -408,7 +408,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @return mixed
+   * @return int
    */
   public function getServerMask()
     {
@@ -416,7 +416,7 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param mixed $server_mask
+   * @param int $server_mask
    */
   public function setServerMask($server_mask)
     {
@@ -438,8 +438,6 @@ class NodeDescriptor extends AbstractFrame
     {
     $this->user_descriptor_available = $user_descriptor_available;
     }
-
-
 
   public function __toString()
     {
