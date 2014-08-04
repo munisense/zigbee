@@ -14,6 +14,9 @@ use Munisense\Zigbee\ZCL\ZCLFrame;
 
 class ZoneStatusChangeNotificationCommand extends AbstractFrame implements IZCLCommandFrame
   {
+  const COMMAND_ID = 0x00;
+  const NAME = "Zone Status Change Notification";
+
   /**
    * @var ZoneStatus $zone_status
    */
@@ -90,7 +93,7 @@ class ZoneStatusChangeNotificationCommand extends AbstractFrame implements IZCLC
 
   public function getCommandId()
     {
-    return ClusterSpecificCommand::ZONE_STATUS_CHANGE_NOTIFICATION;
+    return self::COMMAND_ID;
     }
 
   public function getFrameType()

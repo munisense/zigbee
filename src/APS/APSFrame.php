@@ -2,7 +2,7 @@
 
 namespace Munisense\Zigbee\APS;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\IFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
 use Munisense\Zigbee\ZDP\ZDPFrame;
@@ -138,7 +138,7 @@ class APSFrame implements IFrame
    * using the normal APS format.
    *
    * @param string $frame Byte string of the APS frame
-   * @throws MuniZigbeeException
+   * @throws ZigbeeException
    * @return void
    */
   private function setNormalFrame($frame)
@@ -174,7 +174,7 @@ class APSFrame implements IFrame
     if($this->isPayloadPresent())
       $this->setPayload($frame);
     elseif(strlen($frame) > 0)
-      throw new MuniZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
+      throw new ZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
     }
 
   /**
@@ -182,7 +182,7 @@ class APSFrame implements IFrame
    * using the Munisense 'short' APS format.
    *
    * @param string $frame Byte string of the APS frame
-   * @throws MuniZigbeeException
+   * @throws ZigbeeException
    * @return void
    */
   private function setShortFrame($frame)
@@ -204,7 +204,7 @@ class APSFrame implements IFrame
     if($this->isPayloadPresent())
       $this->setPayload($frame);
     elseif(strlen($frame) > 0)
-      throw new MuniZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
+      throw new ZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
     }
 
   /**
@@ -321,7 +321,7 @@ class APSFrame implements IFrame
    * Set the frame format using one of the FRAME_FORMAT_* constants.
    *
    * @param int $frame_format Enumeration of the frame format
-   * @throws MuniZigbeeException if the frame format was invalid
+   * @throws ZigbeeException if the frame format was invalid
    * @return void
    */
   public function setFrameFormat($frame_format)
@@ -329,7 +329,7 @@ class APSFrame implements IFrame
     $frame_format = intval($frame_format);
 
     if($frame_format < 0x00 || $frame_format > 0x02)
-      throw new MuniZigbeeException("Invalid frame format");
+      throw new ZigbeeException("Invalid frame format");
 
     $this->frame_format = $frame_format;
     }
@@ -364,7 +364,7 @@ class APSFrame implements IFrame
     $frame_control = intval($frame_control);
 
     if($frame_control < 0x00 || $frame_control > 0xff)
-      throw new MuniZigbeeException("Invalid frame control");
+      throw new ZigbeeException("Invalid frame control");
 
     $this->setFrameType(($frame_control >> 0) & 0x03);
     $this->setDeliveryMode(($frame_control >> 2) & 0x03);
@@ -394,7 +394,7 @@ class APSFrame implements IFrame
     $frame_type = intval($frame_type);
 
     if($frame_type < 0x00 || $frame_type > 0x02)
-      throw new MuniZigbeeException("Invalid frame type");
+      throw new ZigbeeException("Invalid frame type");
 
     $this->frame_type = $frame_type;
     }
@@ -423,7 +423,7 @@ class APSFrame implements IFrame
     $delivery_mode = intval($delivery_mode);
 
     if($delivery_mode < 0x00 || $delivery_mode > 0x03)
-      throw new MuniZigbeeException("Invalid delivery mode");
+      throw new ZigbeeException("Invalid delivery mode");
 
     $this->delivery_mode = $delivery_mode;
     }
@@ -544,7 +544,7 @@ class APSFrame implements IFrame
     {
     $destination_endpoint = intval($destination_endpoint);
     if($destination_endpoint < 0x00 || $destination_endpoint > 0xff)
-      throw new MuniZigbeeException("Invalid destination endpoint");
+      throw new ZigbeeException("Invalid destination endpoint");
 
     $this->destination_endpoint = $destination_endpoint;
     }
@@ -563,7 +563,7 @@ class APSFrame implements IFrame
     {
     $group_address = intval($group_address);
     if($group_address < 0x00 || $group_address > 0xffff)
-      throw new MuniZigbeeException("Invalid group address");
+      throw new ZigbeeException("Invalid group address");
 
     $this->group_address = $group_address;
     }
@@ -582,7 +582,7 @@ class APSFrame implements IFrame
     {
     $cluster_id = intval($cluster_id);
     if($cluster_id < 0x00 || $cluster_id > 0xffff)
-      throw new MuniZigbeeException("Invalid cluster id");
+      throw new ZigbeeException("Invalid cluster id");
 
     $this->cluster_id = $cluster_id;
     }
@@ -601,7 +601,7 @@ class APSFrame implements IFrame
     {
     $profile_id = intval($profile_id);
     if($profile_id < 0x00 || $profile_id > 0xffff)
-      throw new MuniZigbeeException("Invalid profile id");
+      throw new ZigbeeException("Invalid profile id");
 
     $this->profile_id = $profile_id;
     }
@@ -620,7 +620,7 @@ class APSFrame implements IFrame
     {
     $source_endpoint = intval($source_endpoint);
     if($source_endpoint < 0x00 || $source_endpoint > 0xff)
-      throw new MuniZigbeeException("Invalid source endpoint");
+      throw new ZigbeeException("Invalid source endpoint");
 
     $this->source_endpoint = $source_endpoint;
     }
@@ -639,7 +639,7 @@ class APSFrame implements IFrame
     {
     $aps_counter = intval($aps_counter);
     if($aps_counter < 0x00 || $aps_counter > 0xff)
-      throw new MuniZigbeeException("Invalid destination endpoint");
+      throw new ZigbeeException("Invalid destination endpoint");
 
     $this->aps_counter = $aps_counter;
     }
@@ -658,7 +658,7 @@ class APSFrame implements IFrame
     {
     $ext_header = intval($ext_header);
     if($ext_header < 0x00 || $ext_header > 0xff)
-      throw new MuniZigbeeException("Invalid frame control");
+      throw new ZigbeeException("Invalid frame control");
 
     $this->setFragmentation(($ext_header >> 0) & 0x03);
     }
@@ -677,7 +677,7 @@ class APSFrame implements IFrame
     {
     $fragmentation = intval($fragmentation);
     if($fragmentation < 0x00 || $fragmentation > 0x02)
-      throw new MuniZigbeeException("Invalid fragmentation field");
+      throw new ZigbeeException("Invalid fragmentation field");
 
     $this->fragmentation = $fragmentation;
     }
@@ -705,7 +705,7 @@ class APSFrame implements IFrame
     {
     $frag_block_number = intval($frag_block_number);
     if($frag_block_number < 0x00 || $frag_block_number > 0xff)
-      throw new MuniZigbeeException("Invalid fragmentation block number field");
+      throw new ZigbeeException("Invalid fragmentation block number field");
 
     $this->frag_block_number = $frag_block_number;
     }
@@ -724,7 +724,7 @@ class APSFrame implements IFrame
     {
     $frag_ack_bitfield = intval($frag_ack_bitfield);
     if($frag_ack_bitfield < 0x00 || $frag_ack_bitfield > 0xff)
-      throw new MuniZigbeeException("Invalid fragmentation ack bitfield");
+      throw new ZigbeeException("Invalid fragmentation ack bitfield");
 
     $this->frag_ack_bitfield = $frag_ack_bitfield;
     }
@@ -767,7 +767,7 @@ class APSFrame implements IFrame
       return;
       }
 
-    throw new MuniZigbeeException("Invalid payload object");
+    throw new ZigbeeException("Invalid payload object");
     }
 
   public function getPayloadObject()
@@ -777,7 +777,7 @@ class APSFrame implements IFrame
     elseif($this->isZCLPayload())
       return new ZCLFrame($this->getPayload());
 
-    throw new MuniZigbeeException("Could not find payload object");
+    throw new ZigbeeException("Could not find payload object");
     }
 
   public function displayPayload()

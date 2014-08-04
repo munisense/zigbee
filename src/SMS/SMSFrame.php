@@ -2,7 +2,7 @@
 
 namespace Munisense\Zigbee\SMS;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\IFrame;
 
 class SMSFrame implements IFrame
@@ -53,10 +53,10 @@ class SMSFrame implements IFrame
       $frame = base64_decode($frame);
 
     if($frame === false)
-      throw new MuniZigbeeException("Error decoding base64");
+      throw new ZigbeeException("Error decoding base64");
 
     if(!self::validateChecksum($frame))
-      throw new MuniZigbeeException("Invalid checksum");
+      throw new ZigbeeException("Invalid checksum");
 
     $this->setSMSHeader(Buffer::unpackInt8u($frame));
 
@@ -87,7 +87,7 @@ class SMSFrame implements IFrame
       Buffer::packInt8u($taz_frame, $length);
 
       if($length > strlen($frame))
-        throw new MuniZigbeeException("Taz frame is too short");
+        throw new ZigbeeException("Taz frame is too short");
 
       $taz_frame .= substr($frame, 0, $length);
       $frame = substr($frame, $length);
@@ -96,7 +96,7 @@ class SMSFrame implements IFrame
       }
 
     if(strlen($frame) > 0)
-      throw new MuniZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
+      throw new ZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
     }
 
   public function getFrame()
@@ -143,7 +143,7 @@ class SMSFrame implements IFrame
   public function setFrameEncoding($frame_encoding)
     {
     if(!in_array($frame_encoding, array(self::FRAME_ENCODING_BINARY, self::FRAME_ENCODING_BASE64)))
-      throw new MuniZigbeeException("Invalid frame encoding");
+      throw new ZigbeeException("Invalid frame encoding");
 
     $this->frame_encoding = $frame_encoding;
     }
@@ -171,7 +171,7 @@ class SMSFrame implements IFrame
     $sms_header = intval($sms_header);
 
     if($sms_header < 0x00 || $sms_header > 0xff)
-      throw new MuniZigbeeException("Invalid frame control");
+      throw new ZigbeeException("Invalid frame control");
 
     $this->setSecurity(($sms_header >> 0) & 0x01);
     $this->setAddressType(($sms_header >> 1) & 0x03);
@@ -227,7 +227,7 @@ class SMSFrame implements IFrame
     $address_type = intval($address_type);
 
     if($address_type < 0x00 || $address_type > 0x02)
-      throw new MuniZigbeeException("Invalid frame type");
+      throw new ZigbeeException("Invalid frame type");
 
     $this->address_type = $address_type;
     }
@@ -315,7 +315,7 @@ class SMSFrame implements IFrame
     $ext_header = intval($ext_header);
 
     if($ext_header < 0x00 || $ext_header > 0xff)
-      throw new MuniZigbeeException("Invalid frame control");
+      throw new ZigbeeException("Invalid frame control");
 
     $this->ext_header = $ext_header;
     }
@@ -334,7 +334,7 @@ class SMSFrame implements IFrame
     {
     $taz_block_count = intval($taz_block_count);
     if($taz_block_count < 0x00 || $taz_block_count > 0xff)
-      throw new MuniZigbeeException("Invalid destination endpoint");
+      throw new ZigbeeException("Invalid destination endpoint");
 
     $this->taz_block_count = $taz_block_count;
     }
@@ -374,7 +374,7 @@ class SMSFrame implements IFrame
     {
     foreach($taz_blocks as $taz_block)
       if(!$taz_block instanceof SMSTazBlock)
-        throw new MuniZigbeeException("One of the TazBlocks is not a SMSTazBlock");
+        throw new ZigbeeException("One of the TazBlocks is not a SMSTazBlock");
 
     $this->taz_blocks = $taz_blocks;
     $this->setTazBlockCount(count($this->getTazBlocks()));

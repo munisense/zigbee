@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\ZCLStatus;
 
 /**
@@ -91,13 +91,13 @@ class AttributeReportingConfigurationStatusRecord extends AttributeReportingConf
    * Otherwise, this field shall be set to SUCCESS.
    *
    * @param int $status
-   * @throws MuniZigbeeException
+   * @throws ZigbeeException
    */
   public function setStatus($status)
     {
     $status = intval($status);
     if(!in_array($status, [ZCLStatus::UNSUPPORTED_ATTRIBUTE, ZCLStatus::UNREPORTABLE_ATTRIBUTE, ZCLStatus::SUCCESS]))
-      throw new MuniZigbeeException("Invalid status");
+      throw new ZigbeeException("Invalid status");
 
     $this->status = $status;
     }

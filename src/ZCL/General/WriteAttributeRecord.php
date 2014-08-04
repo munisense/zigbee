@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 
 class WriteAttributeRecord extends AbstractFrame
   {
@@ -32,7 +32,7 @@ class WriteAttributeRecord extends AbstractFrame
     $this->consumeFrame($frame);
 
     if(strlen($frame) > 0)
-      throw new MuniZigbeeException("Still data left in frame buffer");
+      throw new ZigbeeException("Still data left in frame buffer");
     }
 
   public function getFrame()
@@ -50,7 +50,7 @@ class WriteAttributeRecord extends AbstractFrame
     {
     $attribute_id = intval($attribute_id);
     if($attribute_id < 0x0000 || $attribute_id > 0xffff)
-      throw new MuniZigbeeException("Invalid attribute id");
+      throw new ZigbeeException("Invalid attribute id");
 
     $this->attribute_id = $attribute_id;
     }
@@ -69,7 +69,7 @@ class WriteAttributeRecord extends AbstractFrame
     {
     $datatype_id = intval($datatype_id);
     if($datatype_id < 0x00 || $datatype_id > 0xff)
-      throw new MuniZigbeeException("Invalid datatype id");
+      throw new ZigbeeException("Invalid datatype id");
 
     $this->datatype_id = $datatype_id;
     }

@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZDP\Discovery;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\Command;
 use Munisense\Zigbee\ZDP\IZDPCommandFrame;
 use Munisense\Zigbee\ZDP\Status;
@@ -84,14 +84,14 @@ class SimpleDescRspCommand extends AbstractFrame implements IZDPCommandFrame
 
   /**
    * @param $status
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setStatus($status)
     {
     if(in_array($status, self::$allowed_statusses))
       $this->status = $status;
     else
-      throw new MuniZigbeeException("Invalid status supplied");
+      throw new ZigbeeException("Invalid status supplied");
     }
 
   public function displayStatus()
@@ -125,14 +125,14 @@ class SimpleDescRspCommand extends AbstractFrame implements IZDPCommandFrame
 
   /**
    * @param $nwk_address
-   * @throws \Munisense\Zigbee\Exception\MuniZigbeeException
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setNwkAddrOfInterest($nwk_address)
     {
     if($nwk_address >= 0x0000 && $nwk_address <= 0xffff)
       $this->nwk_addr_of_interest = $nwk_address;
     else
-      throw new MuniZigbeeException("Invalid nwk address");
+      throw new ZigbeeException("Invalid nwk address");
     }
 
   public function displayNwkAddrOfInterest()

@@ -3,8 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 
 use Munisense\Zigbee\AbstractFrame;
-use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\IZCLCommandFrame;
 use Munisense\Zigbee\ZCL\ZCLFrame;
 
@@ -18,12 +17,12 @@ class ReadAttributesStructuredCommand extends AbstractFrame implements IZCLComma
   {
   public function setFrame($frame)
     {
-    throw new MuniZigbeeException(__CLASS__." is not yet implemented");
+    throw new ZigbeeException(__CLASS__." is not yet implemented");
     }
 
   public function getFrame()
     {
-    throw new MuniZigbeeException(__CLASS__." is not yet implemented");
+    throw new ZigbeeException(__CLASS__." is not yet implemented");
     }
 
   /**

@@ -3,7 +3,7 @@
 namespace Munisense\Zigbee\ZCL\General;
 use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
-use Munisense\Zigbee\Exception\MuniZigbeeException;
+use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZCL\ZCLStatus;
 
 class AttributeStatusRecord extends AbstractFrame
@@ -72,7 +72,7 @@ class AttributeStatusRecord extends AbstractFrame
     {
     $direction = intval($direction);
     if($direction < 0x00 || $direction > 0x01)
-      throw new MuniZigbeeException("Invalid direction");
+      throw new ZigbeeException("Invalid direction");
 
     $this->direction = $direction;
     }
@@ -91,7 +91,7 @@ class AttributeStatusRecord extends AbstractFrame
     {
     $attribute_id = intval($attribute_id);
     if($attribute_id < 0x00 || $attribute_id > 0xffff)
-      throw new MuniZigbeeException("Invalid attribute id");
+      throw new ZigbeeException("Invalid attribute id");
 
     $this->attribute_id = $attribute_id;
     }
