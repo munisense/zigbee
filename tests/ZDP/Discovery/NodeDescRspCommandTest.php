@@ -16,8 +16,9 @@ class NodeDescRspCommandTest extends \PHPUnit_Framework_TestCase
 
   public function testStaticConstructSuccess()
     {
-    $frame = NodeDescRspCommand::constructSuccess(0xab12, new NodeDescriptor());
-    $this->assertEquals("0x00 0x12 0xab 0x00", $frame->displayFrame());
+    $node_descriptor = new NodeDescriptor();
+    $frame = NodeDescRspCommand::constructSuccess(0xab12, $node_descriptor);
+    $this->assertEquals(trim("0x00 0x12 0xab 0x00 ".$node_descriptor->getFrame()), $frame->displayFrame());
     }
 
   public function testInclusionByConstructor()
