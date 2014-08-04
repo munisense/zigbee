@@ -13,7 +13,6 @@ use Munisense\Zigbee\Exception\ZigbeeException;
  */
 class NodeDescriptor extends AbstractFrame
   {
-
   /**
    * The logical type field of the node descriptoris three bits in length and specifies the
    * device type of the ZigBee node.
@@ -91,11 +90,68 @@ class NodeDescriptor extends AbstractFrame
 
   private $manufacturer_code;
   private $maximum_buffer_size;
+
+  /**
+   * The maximum transfer size field of the nodedescriptor is sixteen bits in length,
+   * with a valid range of 0x0000-0x7fff. This field specifies the maximum size, in
+   * octets, of the application sub-layer data unit (ASDU) that can be transferred from
+   * this node in one single message transfer. This value can exceed the value of the
+   * node maximum buffer size field (see sub-clause 2.3.2.3.8) through the use of
+   * fragmentation.
+   *
+   * @var int
+   */
   private $maximum_incoming_transfer_size;
+
+  /**
+   * The server mask field of the node descriptor is sixteen bits in length, with bit
+   * settings signifying the system server capabilities of this node. It is used to
+   * facilitate discovery of particular system servers by other nodes on the system.
+   *
+   * @var int
+   */
   private $server_mask;
+
+  /**
+   * The maximum transfer size field of the nodedescriptor is sixteen bits in length,
+   * with a valid range of 0x0000-0x7fff. This field specifies the maximum size, in
+   * octets, of the application sub-layer data unit (ASDU) that can be transferred from
+   * this node in one single message transfer. This value can exceed the value of the
+   * node maximum buffer size field (see sub-clause 2.3.2.3.8) through the use of
+   * fragmentation.
+   *
+   * @var int
+   */
   private $maximum_outgoing_transfer_size;
   private $extended_active_endpoint_list_available;
   private $extended_simple_descriptor_list_available;
+
+  public static function construct($logical_type, $complex_descriptor_available, $user_descriptor_available, $aps_flags,
+    $frequency_band, $mac_capability_alternate_pan_coordinator, $mac_capability_device_type, $mac_capability_power_source,
+    $mac_capability_receiver_on_when_idle, $mac_capability_security_capability, $mac_capability_allocate_address, $manufacturer_code, $maximum_buffer_size,
+    $maximum_incoming_transfer_size, $server_mask, $maximum_outgoing_transfer_size, $extended_active_endpoint_list_available, $extended_simple_descriptor_list_available)
+    {
+    $frame = new self;
+    $frame->setApsFlags($aps_flags);
+    $frame->setComplexDescriptorAvailable($complex_descriptor_available);
+    $frame->setExtendedActiveEndpointListAvailable($extended_active_endpoint_list_available);
+    $frame->setExtendedSimpleDescriptorListAvailable($extended_simple_descriptor_list_available);
+    $frame->setFrequencyBand($frequency_band);
+    $frame->setLogicalType($logical_type);
+    $frame->setMacCapabilityAllocateAddress($mac_capability_allocate_address);
+    $frame->setMacCapabilityAlternatePanCoordinator($mac_capability_alternate_pan_coordinator);
+    $frame->setMacCapabilityDeviceType($mac_capability_device_type);
+    $frame->setMacCapabilityPowerSource($mac_capability_power_source);
+    $frame->setMacCapabilityReceiverOnWhenIdle($mac_capability_receiver_on_when_idle);
+    $frame->setMacCapabilitySecurityCapability($mac_capability_security_capability);
+    $frame->setManufacturerCode($manufacturer_code);
+    $frame->setMaximumBufferSize($maximum_buffer_size);
+    $frame->setMaximumIncomingTransferSize($maximum_incoming_transfer_size);
+    $frame->setMaximumOutgoingTransferSize($maximum_outgoing_transfer_size);
+    $frame->setServerMask($server_mask);
+    $frame->setUserDescriptorAvailable($user_descriptor_available);
+    return $frame;
+    }
 
   /**
    * Returns the frame as a sequence of bytes.
@@ -385,10 +441,15 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $maximum_incoming_transfer_size
+   *
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setMaximumIncomingTransferSize($maximum_incoming_transfer_size)
     {
-    $this->maximum_incoming_transfer_size = $maximum_incoming_transfer_size;
+    if($maximum_incoming_transfer_size >= 0x0000 && $maximum_incoming_transfer_size <= 32767)
+      $this->maximum_incoming_transfer_size = $maximum_incoming_transfer_size;
+    else
+      throw new ZigbeeException("Maximum Incoming Transfer Size not within range 0x0000 - 0x7fff: ".sprintf("0x%04x", $maximum_incoming_transfer_size));
     }
 
   /**
@@ -400,11 +461,16 @@ class NodeDescriptor extends AbstractFrame
     }
 
   /**
-   * @param int $maximum_outgoing_transfer_size
+   * @param $maximum_outgoing_transfer_size int
+   *
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setMaximumOutgoingTransferSize($maximum_outgoing_transfer_size)
     {
-    $this->maximum_outgoing_transfer_size = $maximum_outgoing_transfer_size;
+    if($maximum_outgoing_transfer_size >= 0x0000 && $maximum_outgoing_transfer_size <= 32767)
+      $this->maximum_outgoing_transfer_size = $maximum_outgoing_transfer_size;
+    else
+      throw new ZigbeeException("Maximum Outgoing Transfer Size not within range 0x0000 - 0x7fff: ".sprintf("0x%04x", $maximum_outgoing_transfer_size));
     }
 
   /**
