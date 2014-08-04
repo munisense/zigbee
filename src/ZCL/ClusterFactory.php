@@ -11,7 +11,7 @@ class ClusterFactory
   {
   /**
    * @param $cluster_id
-   * @return ClusterBase
+   * @return AbstractCluster
    * @throws ZigbeeException
    */
   public static function getClusterClassInstance($cluster_id)

@@ -4,7 +4,7 @@ namespace Munisense\Zigbee\ZCL;
 
 use Munisense\Zigbee\Exception\ZigbeeException;
 
-class ClusterBase
+abstract class AbstractCluster
   {
   const NAME = null;
   const CLUSTER_ID = null;

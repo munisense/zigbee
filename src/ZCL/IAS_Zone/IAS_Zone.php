@@ -2,9 +2,9 @@
 
 namespace Munisense\Zigbee\ZCL\IAS_Zone;
 
-use Munisense\Zigbee\ZCL\ClusterBase;
+use Munisense\Zigbee\ZCL\AbstractCluster;
 
-class IAS_Zone extends ClusterBase
+class IAS_Zone extends AbstractCluster
   {
   const CLUSTER_ID = 0x0500;
   const NAME = "IAS Zone";
