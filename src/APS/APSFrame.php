@@ -602,7 +602,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isZCLPayload()
+  protected function isZCLPayload()
     {
     if($this->getFrameType() === self::FRAME_TYPE_DATA &&
         !($this->getProfileId() === 0x0000 &&
@@ -612,7 +612,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isGroupAddressPresent()
+  protected function isGroupAddressPresent()
     {
     if($this->isDataFrameOrDataAck() &&
        $this->getFrameType() === self::FRAME_TYPE_DATA &&
@@ -622,7 +622,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isDestinationEndpointPresent()
+  protected function isDestinationEndpointPresent()
     {
     if($this->isDataFrameOrDataAck() &&
        $this->getDeliveryMode() !== self::DELIVERY_MODE_GROUP_ADDRESS)
@@ -631,7 +631,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isClusterIdPresent()
+  protected function isClusterIdPresent()
     {
     if($this->isDataFrameOrDataAck())
       return true;
@@ -639,7 +639,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isProfileIdPresent()
+  protected function isProfileIdPresent()
     {
     if($this->isDataFrameOrDataAck())
       return true;
@@ -647,7 +647,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isSourceEndpointPresent()
+  protected function isSourceEndpointPresent()
     {
     if($this->isDataFrameOrDataAck())
       return true;
@@ -655,7 +655,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isExtHeaderPresent()
+  protected function isExtHeaderPresent()
     {
     if($this->getFrameType() !== self::FRAME_TYPE_COMMAND &&
        $this->getExtHeaderPresent() === self::EXT_HEADER_IS_PRESENT)
@@ -664,7 +664,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isDataFrameOrDataAck()
+  protected function isDataFrameOrDataAck()
     {
     if($this->getFrameType() === self::FRAME_TYPE_DATA ||
         ($this->getFrameType() === self::FRAME_TYPE_ACKNOWLEDGE && 
@@ -674,7 +674,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isFragBlockNumberPresent()
+  protected function isFragBlockNumberPresent()
     {
     if($this->isExtHeaderPresent() &&
        in_array($this->getFragmentation(), array(self::FRAGMENTATION_FIRST, self::FRAGMENTATION_FOLLOWING)))
@@ -683,7 +683,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isFragAckBitfieldPresent()
+  protected function isFragAckBitfieldPresent()
     {
     if($this->isFragBlockNumberPresent() &&
        $this->getFrameType() === self::FRAME_TYPE_ACKNOWLEDGE)
@@ -692,7 +692,7 @@ class APSFrame extends AbstractFrame implements IFrame
     return false;
     }
 
-  private function isPayloadPresent()
+  protected function isPayloadPresent()
     {
     if($this->getFrameType() !== self::FRAME_TYPE_ACKNOWLEDGE)
       return true;
