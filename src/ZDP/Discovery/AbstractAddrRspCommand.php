@@ -171,7 +171,7 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
     }
 
   /**
-   * @return mixed
+   * @return int
    */
   public function getNwkAddrRemoteDev()
     {
@@ -179,7 +179,7 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
     }
 
   /**
-   * @param mixed $nwk_addr_remote_dev
+   * @param int $nwk_addr_remote_dev
    */
   public function setNwkAddrRemoteDev($nwk_addr_remote_dev)
     {
@@ -188,12 +188,11 @@ abstract class AbstractAddrRspCommand extends AbstractFrame implements IZDPComma
 
   public function displayNwkAddrRemoteDev()
     {
-    return Buffer::displayInt16u($this->getNwkAddrRemoteDev());
+    return sprintf("0x%04x", $this->getNwkAddrRemoteDev());
     }
 
-
   /**
-   * @return mixed
+   * @return int
    */
   public function getStatus()
     {

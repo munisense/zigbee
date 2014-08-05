@@ -78,7 +78,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
 
   public function displayNwkAddress()
     {
-    return Buffer::displayInt16u($this->getNwkAddress());
+    return sprintf("0x%04x", $this->getNwkAddress());
     }
 
   public function setRequestType($request_type)
@@ -137,7 +137,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
   public function __toString()
     {
     $output = __CLASS__." (length: ".strlen($this->getFrame()).")".PHP_EOL;
-    $output .= "|- NwkAddr    : ".$this->displayNwkAddress().PHP_EOL;
+    $output .= "|- NwkAddr     : ".$this->displayNwkAddress().PHP_EOL;
     $output .= ($this->isStartIndexPresent() ? "|" : "`")."- RequestType : ".$this->displayRequestType().PHP_EOL;
     if($this->isStartIndexPresent())
       $output .= "`- StartIndex  : ".$this->displayStartIndex().PHP_EOL;
