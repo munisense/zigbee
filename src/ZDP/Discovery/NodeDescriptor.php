@@ -258,7 +258,7 @@ class NodeDescriptor extends AbstractFrame
     if($complex_descriptor_available === 0 || $complex_descriptor_available === 1)
       $this->complex_descriptor_available = $complex_descriptor_available;
     else
-      throw new ZigbeeException("ComplexDescriptorAvailable may only be 0 or 1");
+      throw new ZigbeeException("Complex Descriptor Available may only be 0 or 1");
     }
 
   /**
@@ -278,7 +278,7 @@ class NodeDescriptor extends AbstractFrame
     if($extended_active_endpoint_list_available === 0 || $extended_active_endpoint_list_available === 1)
       $this->extended_active_endpoint_list_available = $extended_active_endpoint_list_available;
     else
-      throw new ZigbeeException("ExtendedActiveEndpointListAvailable may only be 0 or 1");
+      throw new ZigbeeException("Extended Active Endpoint List Available may only be 0 or 1");
     }
 
   /**
@@ -291,10 +291,14 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $extended_simple_descriptor_list_available 0 When not available, 1 when available
+   * @throws ZigbeeException
    */
   public function setExtendedSimpleDescriptorListAvailable($extended_simple_descriptor_list_available)
     {
-    $this->extended_simple_descriptor_list_available = $extended_simple_descriptor_list_available;
+    if($extended_simple_descriptor_list_available === 0 || $extended_simple_descriptor_list_available === 1)
+      $this->extended_simple_descriptor_list_available = $extended_simple_descriptor_list_available;
+    else
+      throw new ZigbeeException("Extended Simple Descriptor List Available may only be 0 or 1");
     }
 
   /**
@@ -458,10 +462,14 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $maximum_buffer_size
+   * @throws \Munisense\Zigbee\Exception\ZigbeeException
    */
   public function setMaximumBufferSize($maximum_buffer_size)
     {
-    $this->maximum_buffer_size = $maximum_buffer_size;
+    if($maximum_buffer_size >= 0x00 && $maximum_buffer_size <= 0x7f)
+      $this->$maximum_buffer_size = $maximum_buffer_size;
+    else
+      throw new ZigbeeException("Maximum Buffer Size not within range 0x00 - 0x7f: ".sprintf("0x%02x", $maximum_buffer_size));
     }
 
   /**
@@ -479,7 +487,7 @@ class NodeDescriptor extends AbstractFrame
    */
   public function setMaximumIncomingTransferSize($maximum_incoming_transfer_size)
     {
-    if($maximum_incoming_transfer_size >= 0x0000 && $maximum_incoming_transfer_size <= 32767)
+    if($maximum_incoming_transfer_size >= 0x0000 && $maximum_incoming_transfer_size <= 0x7fff)
       $this->maximum_incoming_transfer_size = $maximum_incoming_transfer_size;
     else
       throw new ZigbeeException("Maximum Incoming Transfer Size not within range 0x0000 - 0x7fff: ".sprintf("0x%04x", $maximum_incoming_transfer_size));
@@ -500,7 +508,7 @@ class NodeDescriptor extends AbstractFrame
    */
   public function setMaximumOutgoingTransferSize($maximum_outgoing_transfer_size)
     {
-    if($maximum_outgoing_transfer_size >= 0x0000 && $maximum_outgoing_transfer_size <= 32767)
+    if($maximum_outgoing_transfer_size >= 0x0000 && $maximum_outgoing_transfer_size <= 0x7fff)
       $this->maximum_outgoing_transfer_size = $maximum_outgoing_transfer_size;
     else
       throw new ZigbeeException("Maximum Outgoing Transfer Size not within range 0x0000 - 0x7fff: ".sprintf("0x%04x", $maximum_outgoing_transfer_size));
@@ -532,10 +540,14 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $user_descriptor_available
+   * @throws ZigbeeException
    */
   public function setUserDescriptorAvailable($user_descriptor_available)
     {
-    $this->user_descriptor_available = $user_descriptor_available;
+    if($user_descriptor_available === 0 || $user_descriptor_available === 1)
+      $this->user_descriptor_available = $user_descriptor_available;
+    else
+      throw new ZigbeeException("User Descriptor Available may only be 0 or 1");
     }
 
   public function __toString()
