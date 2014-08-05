@@ -97,7 +97,7 @@ class Command
 
   public static $command = array(
     self::COMMAND_NWK_ADDR_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\NwkAddrReqCommand", "name" => "Network Address Request"),
-    self::COMMAND_IEEE_ADDR_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\IeeeAddrReqCommand", "name" => "Ieee Address Request"),
+    self::COMMAND_IEEE_ADDR_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\IEEEAddrReqCommand", "name" => "Ieee Address Request"),
     self::COMMAND_NODE_DESC_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\NodeDescReqCommand", "name" => "Node Descriptor Request"),
     self::COMMAND_POWER_DESC_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\PowerDescReqCommand", "name" => "Power Descriptor Request"),
     self::COMMAND_SIMPLE_DESC_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\SimpleDescReqCommand", "name" => "Simple Descriptor Request"),
@@ -144,7 +144,7 @@ class Command
     self::COMMAND_MGMT_NWK_UPDATE_REQ => array("class" => "Munisense\\Zigbee\\ZDP\\Network\\MgmtNwkUpdateReqCommand", "name" => "Management Network Update Request"),
 
     self::COMMAND_NWK_ADDR_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\NwkAddrRspCommand", "name" => "Network Address Response"),
-    self::COMMAND_IEEE_ADDR_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\IeeeAddrRspCommand", "name" => "Ieee Address Response"),
+    self::COMMAND_IEEE_ADDR_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\IEEEAddrRspCommand", "name" => "Ieee Address Response"),
     self::COMMAND_NODE_DESC_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\NodeDescRspCommand", "name" => "Node Descriptor Response"),
     self::COMMAND_POWER_DESC_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\PowerDescRspCommand", "name" => "Power Descriptor Response"),
     self::COMMAND_SIMPLE_DESC_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\SimpleDescRspCommand", "name" => "Simple Descriptor Response"),

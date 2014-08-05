@@ -34,7 +34,7 @@ abstract class AbstractNWKAddrOfInterestReqCommand extends AbstractFrame impleme
     if($nwk_address >= 0x0000 && $nwk_address <= 0xffff)
       $this->nwk_address_of_interest = $nwk_address;
     else
-      throw new ZigbeeException("Invalid nwk address");
+      throw new ZigbeeException("Nwk Address not in range 0x0000 - 0xffff: ".sprintf("0x%04x", $nwk_address));
     }
 
   public function getNwkAddressOfInterest()
@@ -44,7 +44,7 @@ abstract class AbstractNWKAddrOfInterestReqCommand extends AbstractFrame impleme
 
   public function displayNwkAddressOfInterest()
     {
-    return Buffer::displayInt16u($this->getNwkAddressOfInterest());
+    return sprintf("0x%04x", $this->getNwkAddressOfInterest());
     }
 
   public function __toString()

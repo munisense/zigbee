@@ -16,16 +16,6 @@ class APSFrameTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals("0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
     }
 
-  /**
-   * This test ensures the default APS parameters do not change without notification
-   */
-  public function testShortFrameDefaults()
-    {
-    $frame = new APSFrame();
-    $frame->setFrameFormat(APSFrame::FRAME_FORMAT_SHORT_ZCL);
-    $this->assertEquals("0x00 0x00 0x00", $frame->displayFrame());
-    }
-
   public function testZCLInclusion()
     {
     $zcl_frame = ZCLFrame::construct(ReadAttributesCommand::construct([]));
