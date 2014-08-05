@@ -50,6 +50,9 @@ class SimpleDescRspCommand extends AbstractFrame implements IZDPCommandFrame
     $this->setStatus(Buffer::unpackInt8u($frame));
     $this->setNwkAddrOfInterest(Buffer::unpackInt16u($frame));
 
+    // Simple Descriptor Length, unused, but may not remain in buffer
+    Buffer::unpackInt8u($frame);
+
     if($this->getStatus() == Status::SUCCESS)
       $this->setSimpleDescriptor(new SimpleDescriptor($frame));
     }

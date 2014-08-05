@@ -23,6 +23,14 @@ class SimpleDescRspCommandTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals("0x00 0x12 0xab 0x08 0x0a 0x34 0x12 0xcd 0xab 0x08 0x00 0x00", $frame->displayFrame());
     }
 
+  public function testReverse()
+    {
+    $simple_desc = SimpleDescRspCommand::constructSuccess(0xab12, SimpleDescriptor::construct(0x0a, 0x1234, 0xabcd, 8));
+    $frame = $simple_desc->getFrame();
+    $new_descriptor = new SimpleDescRspCommand($frame);
+    $this->assertEquals($simple_desc->displayFrame(), $new_descriptor->displayFrame());
+    }
+
   public function testInclusionByConstructor()
     {
     $base_frame = SimpleDescRspCommand::constructFailure(Status::DEVICE_NOT_FOUND, 0xab12);
