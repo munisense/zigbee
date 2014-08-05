@@ -1,6 +1,7 @@
 <?php
 
 namespace Munisense\Zigbee\APS;
+use Munisense\Zigbee\AbstractFrame;
 use Munisense\Zigbee\Buffer;
 use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\IFrame;
@@ -10,15 +11,8 @@ use Munisense\Zigbee\ZDP\ZDPFrame;
 /**
  * Zigbee Specification: 2.2.5.1
  */
-class APSFrame implements IFrame
+class APSFrame extends AbstractFrame implements IFrame
   {
-  // Munisense Specific frame format
-  const FRAME_FORMAT_NORMAL = 0x00;
-  const FRAME_FORMAT_SHORT_ZCL = 0x01;
-  const FRAME_FORMAT_SHORT_ZDP = 0x02;
-  const FRAME_FORMAT_RESERVED = 0x03;
-  private $frame_format = self::FRAME_FORMAT_NORMAL;
-
   // Zigbee Specification: 2.2.5.1.1
   const FRAME_TYPE_DATA = 0x00;
   const FRAME_TYPE_COMMAND = 0x01;
@@ -85,63 +79,14 @@ class APSFrame implements IFrame
   // Zigbee Specification: 2.2.5.1.9
   private $payload = "";
 
-
-  /**
-   * Create a new Zigbee APS Frame
-   *
-   * When the frame argument you will parse the frame and set all
-   * parameters acordingly. When no frame is given the APS frame is
-   * filled with default parameters.
-   *
-   * The frame format is not packaged in the frame so it needs to
-   * be set out-of-band to the object. This can be done here with
-   * an agument to the constructor or by setting the frame_format field.
-   *
-   * @param string $frame Byte string of the APS frame
-   * @param int $frame_format (enum) Format to parse the frame in (default: FRAME_FORMAT_NORMAL, options: FRAME_FORMAT_*)
-   * @return APSFrame
-   */
-  public function __construct($frame = null, $frame_format = null)
-    {
-    if($frame !== null)
-      $this->setFrame($frame, $frame_format);
-    }
-
   /**
    * Set all parameters of this object by parsing a frame
    *
-   * The frame format will determine the way the APS frame is
-   * constructed. Two basic formats are available: 'normal', 
-   * according to Zigbee specs and 'short', a munisense 
-   * propriatary format to minimize data.
-   *
-   * The 'short' frame format is commonly used in the
-   * SMS Frames.
-   *
    * @param string $frame Byte string of the APS frame
-   * @param int $frame_format (enum) format to parse the frame in (default: FRAME_FORMAT_NORMAL, options: FRAME_FORMAT_*)
    * @return void
-   */
-  public function setFrame($frame, $frame_format = null)
-    {
-    if($frame_format !== null)
-      $this->setFrameFormat($frame_format);
-
-    if($this->isShortFrame())
-      $this->setShortFrame($frame);
-    else
-      $this->setNormalFrame($frame);
-    }
-
-  /**
-   * Set all parameters of this object by parsing a frame
-   * using the normal APS format.
-   *
-   * @param string $frame Byte string of the APS frame
    * @throws ZigbeeException
-   * @return void
    */
-  private function setNormalFrame($frame)
+  public function setFrame($frame)
     {
     $this->setFrameControl(Buffer::unpackInt8u($frame));
 
@@ -178,54 +123,11 @@ class APSFrame implements IFrame
     }
 
   /**
-   * Set all parameters of this object by parsing a frame
-   * using the Munisense 'short' APS format.
-   *
-   * @param string $frame Byte string of the APS frame
-   * @throws ZigbeeException
-   * @return void
-   */
-  private function setShortFrame($frame)
-    {
-    $this->setFrameControl(Buffer::unpackInt8u($frame));
-
-    if($this->isClusterIdPresent())
-      $this->setClusterId(Buffer::unpackInt16u($frame));
-
-    if($this->isExtHeaderPresent())
-      $this->setExtHeader(Buffer::unpackInt8u($frame));
-
-    if($this->isFragBlockNumberPresent())
-      $this->setFragBlockNumber(Buffer::unpackInt8u($frame));
-
-    if($this->isFragAckBitfieldPresent())
-      $this->setFragAckBitfield(Buffer::unpackInt8u($frame));
-
-    if($this->isPayloadPresent())
-      $this->setPayload($frame);
-    elseif(strlen($frame) > 0)
-      throw new ZigbeeException("Unparsed data (".strlen($frame)." bytes) at end of frame");
-    }
-
-  /**
-   * Get the current frame formed to the selected frame format.
+   * Get the current frame.
    *
    * @return string Frame
    */
   public function getFrame()
-    {
-    if($this->isShortFrame())
-      return $this->getShortFrame();
-
-    return $this->getNormalFrame();
-    }
-
-  /**
-   * Get the current frame formed in normal APS format
-   *
-   * @return string Frame
-   */
-  private function getNormalFrame()
     {
     $frame = "";
 
@@ -263,101 +165,6 @@ class APSFrame implements IFrame
     return $frame;
     }
 
-  /**
-   * Get the current frame formed in the Munisense
-   * 'short' frame format.
-   *
-   * @return string Frame
-   */
-  private function getShortFrame()
-    {
-    $frame = "";
-
-    Buffer::packInt8u($frame, $this->getFrameControl());
-
-    if($this->isClusterIdPresent())
-      Buffer::packInt16u($frame, $this->getClusterId());
-
-    if($this->isExtHeaderPresent())
-      Buffer::packInt8u($frame, $this->getExtHeader());
-
-    if($this->isFragBlockNumberPresent())
-      Buffer::packInt8u($frame, $this->getFragBlockNumber());
-
-    if($this->isFragAckBitfieldPresent())
-      Buffer::packInt8u($frame, $this->getFragAckBitfield());
-
-    if($this->isPayloadPresent())
-      $frame .= $this->getPayload();
-
-    return $frame;
-    }
-
-  /**
-   * Determine if the frame format is short.
-   *
-   * @return bool True for short frame, false for normal frame
-   */
-  public function isShortFrame()
-    {
-    if(in_array($this->getFrameFormat(), array(self::FRAME_FORMAT_SHORT_ZCL, self::FRAME_FORMAT_SHORT_ZDP)))
-      return true;
-
-    return false;
-    }
-
-  /**
-   * Returns a displayable version of the frame
-   *
-   * @return string Displayable version of the frame
-   */
-
-  public function displayFrame()
-    {
-    return Buffer::displayOctetString($this->getFrame());
-    }
-
-  /**
-   * Set the frame format using one of the FRAME_FORMAT_* constants.
-   *
-   * @param int $frame_format Enumeration of the frame format
-   * @throws ZigbeeException if the frame format was invalid
-   * @return void
-   */
-  public function setFrameFormat($frame_format)
-    {
-    $frame_format = intval($frame_format);
-
-    if($frame_format < 0x00 || $frame_format > 0x02)
-      throw new ZigbeeException("Invalid frame format");
-
-    $this->frame_format = $frame_format;
-    }
-
-  /**
-   * Get the frame format in form of a FRAME_FORMAT_* constant.
-   *
-   * @return int Enumeration of the frame format
-   */
-  public function getFrameFormat()
-    {
-    return $this->frame_format;
-    }
-
-  public function displayFrameFormat()
-    {
-    $frame_format = $this->getFrameFormat();
-    switch($frame_format)
-      {
-      case self::FRAME_FORMAT_NORMAL: $output = "Normal"; break;
-      case self::FRAME_FORMAT_SHORT_ZCL: $output = "Short ZCL"; break;
-      case self::FRAME_FORMAT_SHORT_ZDP: $output = "Short ZDP"; break;
-      case self::FRAME_FORMAT_RESERVED: $output = "Reserved"; break;
-      default: $output = "unknown"; break;
-      }
-
-    return sprintf("%s (0x%02x)", $output, $frame_format);
-    }
 
   public function setFrameControl($frame_control)
     {
@@ -785,13 +592,11 @@ class APSFrame implements IFrame
     return Buffer::displayOctetString($this->getPayload());
     }
 
-  private function isZDPPayload()
+  protected function isZDPPayload()
     {
     if($this->getFrameType() === self::FRAME_TYPE_DATA &&
-        ($this->getFrameFormat() === self::FRAME_FORMAT_NORMAL &&
-         $this->getProfileId() === 0x0000 &&
-         $this->getDestinationEndpoint() === 0x00) ||
-       $this->getFrameFormat() === self::FRAME_FORMAT_SHORT_ZDP)
+        ($this->getProfileId() === 0x0000 &&
+         $this->getDestinationEndpoint() === 0x00))
       return true;
 
     return false;
@@ -800,10 +605,8 @@ class APSFrame implements IFrame
   private function isZCLPayload()
     {
     if($this->getFrameType() === self::FRAME_TYPE_DATA &&
-        !($this->getFrameFormat() === self::FRAME_FORMAT_NORMAL &&
-          $this->getProfileId() === 0x0000 &&
-          $this->getDestinationEndpoint() === 0x00) ||
-       $this->getFrameFormat() === self::FRAME_FORMAT_SHORT_ZCL)
+        !($this->getProfileId() === 0x0000 &&
+          $this->getDestinationEndpoint() === 0x00))
       return true;
 
     return false;
@@ -899,9 +702,7 @@ class APSFrame implements IFrame
 
   public function __toString()
     {
-    $short = $this->isShortFrame();
-
-    $output =  __CLASS__." (length: ".strlen($this->getFrame()).", format: ".$this->displayFrameFormat().")".PHP_EOL;
+    $output =  __CLASS__." (length: ".strlen($this->getFrame()).")".PHP_EOL;
     $output .= "|- frameControl     : ".$this->displayFrameControl().PHP_EOL;
     $output .= "|  |- frameType     : ".$this->displayFrameType().PHP_EOL;
     $output .= "|  |- deliveryMode  : ".$this->displayDeliveryMode().PHP_EOL;
@@ -910,23 +711,22 @@ class APSFrame implements IFrame
     $output .= "|  |- ackRequest    : ".$this->displayAckRequest().PHP_EOL;
     $output .= "|  `- extHeaderPres : ".$this->displayExtHeaderPresent().PHP_EOL;
 
-    if(!$short && $this->isDestinationEndpointPresent())
+    if($this->isDestinationEndpointPresent())
       $output .= "|- destEndpoint     : ".$this->displayDestinationEndpoint().PHP_EOL;
 
-    if(!$short && $this->isGroupAddressPresent())
+    if($this->isGroupAddressPresent())
       $output .= "|- groupAddress     : ".$this->displayGroupAddress().PHP_EOL;
 
     if($this->isClusterIdPresent())
       $output .= "|- clusterId        : ".$this->displayClusterId().PHP_EOL;
 
-    if(!$short && $this->isProfileIdPresent())
+    if($this->isProfileIdPresent())
       $output .= "|- profileId        : ".$this->displayProfileId().PHP_EOL;
 
-    if(!$short && $this->isSourceEndpointPresent())
+    if($this->isSourceEndpointPresent())
       $output .= "|- sourceEndpoint   : ".$this->displaySourceEndpoint().PHP_EOL;
 
-    if(!$short)
-      $output .= "|- apsCounter       : ".$this->displayApsCounter().PHP_EOL;
+    $output .= "|- apsCounter       : ".$this->displayApsCounter().PHP_EOL;
 
     if($this->isExtHeaderPresent())
       {
