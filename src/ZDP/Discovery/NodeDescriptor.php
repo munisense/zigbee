@@ -88,8 +88,8 @@ class NodeDescriptor extends AbstractFrame
   // TODO What is this exactly CCB #841
   private $mac_capability_allocate_address = 0;
 
-  private $manufacturer_code;
-  private $maximum_buffer_size;
+  private $manufacturer_code = 0;
+  private $maximum_buffer_size = 0;
 
   /**
    * The maximum transfer size field of the nodedescriptor is sixteen bits in length,
@@ -101,7 +101,7 @@ class NodeDescriptor extends AbstractFrame
    *
    * @var int
    */
-  private $maximum_incoming_transfer_size;
+  private $maximum_incoming_transfer_size = 0;
 
   /**
    * The server mask field of the node descriptor is sixteen bits in length, with bit
@@ -110,7 +110,7 @@ class NodeDescriptor extends AbstractFrame
    *
    * @var int
    */
-  private $server_mask;
+  private $server_mask = 0;
 
   /**
    * The maximum transfer size field of the nodedescriptor is sixteen bits in length,
@@ -122,9 +122,9 @@ class NodeDescriptor extends AbstractFrame
    *
    * @var int
    */
-  private $maximum_outgoing_transfer_size;
-  private $extended_active_endpoint_list_available;
-  private $extended_simple_descriptor_list_available;
+  private $maximum_outgoing_transfer_size = 0;
+  private $extended_active_endpoint_list_available = 0;
+  private $extended_simple_descriptor_list_available = 0;
 
   public static function construct($logical_type, $complex_descriptor_available, $user_descriptor_available, $aps_flags,
     $frequency_band, $mac_capability_alternate_pan_coordinator, $mac_capability_device_type, $mac_capability_power_source,
@@ -162,7 +162,32 @@ class NodeDescriptor extends AbstractFrame
     {
     $frame = "";
 
-    // TODO Implement getFrame()
+    $byte1 = $this->getLogicalType() & 7;
+    $byte1 |= ($this->getComplexDescriptorAvailable() << 3) & 8;
+    $byte1 |= ($this->getUserDescriptorAvailable() << 4) & 16;
+    Buffer::packInt8u($frame, $byte1);
+
+    $byte2 = $this->getApsFlags() & 7;
+    $byte2 |= ($this->getFrequencyBand() << 3) & 248;
+    Buffer::packInt8u($frame, $byte2);
+
+    $byte_mac = ($this->getMacCapabilityAlternatePanCoordinator() >> 0) & 1;
+    $byte_mac |= ($this->getMacCapabilityDeviceType() >> 1) & 2;
+    $byte_mac |= ($this->getMacCapabilityPowerSource() >> 2) & 4;
+    $byte_mac |= ($this->getMacCapabilityReceiverOnWhenIdle() >> 3) & 8;
+    $byte_mac |= ($this->getMacCapabilitySecurityCapability() >> 6) & 64;
+    $byte_mac |= ($this->getMacCapabilityAllocateAddress() >> 7) & 128;
+    Buffer::packInt8u($frame, $byte_mac);
+
+    Buffer::packInt16u($frame, $this->getManufacturerCode());
+    Buffer::packInt8u($frame,  $this->getMaximumBufferSize());
+    Buffer::packInt16u($frame, $this->getMaximumIncomingTransferSize());
+    Buffer::packInt16u($frame, $this->getServerMask());
+    Buffer::packInt16u($frame, $this->getMaximumOutgoingTransferSize());
+
+    $byte_descriptor = ($this->getExtendedActiveEndpointListAvailable() >> 0) & 1;
+    $byte_descriptor |= ($this->getExtendedSimpleDescriptorListAvailable() >> 1) & 2;
+    Buffer::packInt8u($frame, $byte_descriptor);
 
     return $frame;
     }
@@ -226,10 +251,14 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $complex_descriptor_available
+   * @throws ZigbeeException
    */
   public function setComplexDescriptorAvailable($complex_descriptor_available)
     {
-    $this->complex_descriptor_available = $complex_descriptor_available;
+    if($complex_descriptor_available === 0 || $complex_descriptor_available === 1)
+      $this->complex_descriptor_available = $complex_descriptor_available;
+    else
+      throw new ZigbeeException("ComplexDescriptorAvailable may only be 0 or 1");
     }
 
   /**
@@ -242,10 +271,14 @@ class NodeDescriptor extends AbstractFrame
 
   /**
    * @param int $extended_active_endpoint_list_available 0 When not available, 1 when available
+   * @throws ZigbeeException
    */
   public function setExtendedActiveEndpointListAvailable($extended_active_endpoint_list_available)
     {
-    $this->extended_active_endpoint_list_available = $extended_active_endpoint_list_available;
+    if($extended_active_endpoint_list_available === 0 || $extended_active_endpoint_list_available === 1)
+      $this->extended_active_endpoint_list_available = $extended_active_endpoint_list_available;
+    else
+      throw new ZigbeeException("ExtendedActiveEndpointListAvailable may only be 0 or 1");
     }
 
   /**

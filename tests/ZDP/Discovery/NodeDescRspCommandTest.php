@@ -18,7 +18,8 @@ class NodeDescRspCommandTest extends \PHPUnit_Framework_TestCase
     {
     $node_descriptor = new NodeDescriptor();
     $frame = NodeDescRspCommand::constructSuccess(0xab12, $node_descriptor);
-    $this->assertEquals(trim("0x00 0x12 0xab 0x00 ".$node_descriptor->getFrame()), $frame->displayFrame());
+    $node_descriptor_frame_length = sprintf("0x%02x", strlen($node_descriptor->getFrame()));
+    $this->assertEquals(trim("0x00 0x12 0xab ".$node_descriptor_frame_length." ".$node_descriptor->displayFrame()), $frame->displayFrame());
     }
 
   public function testInclusionByConstructor()
