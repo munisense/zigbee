@@ -18,7 +18,7 @@ class ZDPFrameTest extends \PHPUnit_Framework_TestCase
 
   public function testFindClassByCluster()
     {
-    $this->assertEquals("Munisense\\Zigbee\\ZDP\\Discovery\\IeeeAddrRspCommand", ZDPFrame::findClassByCluster(0x8001));
+    $this->assertEquals("Munisense\\Zigbee\\ZDP\\Discovery\\IEEEAddrRspCommand", ZDPFrame::findClassByCluster(0x8001));
     }
 
   public function testCommandInclusion()
