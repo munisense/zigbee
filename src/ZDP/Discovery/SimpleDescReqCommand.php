@@ -69,7 +69,7 @@ class SimpleDescReqCommand extends AbstractNWKAddrOfInterestReqCommand
 
   public function displayEndpoint()
     {
-    return Buffer::displayInt8u($this->getEndpoint());
+    return sprintf("0x%02x", $this->getEndpoint());
     }
 
   /**
