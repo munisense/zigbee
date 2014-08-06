@@ -2,7 +2,6 @@
 
 namespace Munisense\Zigbee\ZDP\Discovery;
 
-use Munisense\Zigbee\Exception\ZigbeeException;
 use Munisense\Zigbee\ZDP\Status;
 use Munisense\Zigbee\ZDP\ZDPFrame;
 
@@ -65,9 +64,9 @@ class NwkAddrRspCommandTest extends \PHPUnit_Framework_TestCase
     }
 
   /**
-   * @expectedException ZigbeeException
+   * @expectedException \Munisense\Zigbee\Exception\ZigbeeException
    */
-  public function addInvalidAssociatedDevice()
+  public function testAddInvalidAssociatedDevice()
     {
     $frame = new NwkAddrRspCommand();
     $frame->setAssociatedDeviceList([0xff00, 0xffff+1]);
