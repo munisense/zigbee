@@ -27,7 +27,7 @@ class ZDPFrameTest extends \PHPUnit_Framework_TestCase
     $frame = ZDPFrame::construct($command, 0x12);
 
     $this->assertEquals($command->getClusterId(), $frame->getCommandId());
-    $this->assertEquals("0x12 0xef 0xbe 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
+    $this->assertEquals("0x12 0xef 0xbe 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
     }
 
   public function testGetPayloadObject()

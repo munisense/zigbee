@@ -31,6 +31,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
     $frame = new self;
     $frame->setRequestType(self::REQUEST_TYPE_SINGLE);
     $frame->setNwkAddress($nwk_address);
+    $frame->setStartIndex(0x00);
     return $frame;
     }
 
@@ -47,8 +48,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
     {
     $this->setNwkAddress(Buffer::unpackInt16u($frame));
     $this->setRequestType(Buffer::unpackInt8u($frame));
-    if($this->isStartIndexPresent())
-      $this->setStartIndex(Buffer::unpackInt8u($frame));
+    $this->setStartIndex(Buffer::unpackInt8u($frame));
     }
 
   public function getFrame()
@@ -57,8 +57,7 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
 
     Buffer::packInt16u($frame, $this->getNwkAddress());
     Buffer::packInt8u($frame, $this->getRequestType());
-    if($this->isStartIndexPresent())
-      Buffer::packInt8u($frame, $this->getStartIndex());
+    Buffer::packInt8u($frame, $this->getStartIndex());
 
     return $frame;
     }
@@ -126,21 +125,12 @@ class IEEEAddrReqCommand extends AbstractFrame implements IZDPCommandFrame
     return sprintf("0x%02x", $this->getStartIndex());
     }
 
-  private function isStartIndexPresent()
-    {
-    if($this->getRequestType() === self::REQUEST_TYPE_EXTENDED)
-      return true;
-
-    return false;
-    }
-
   public function __toString()
     {
     $output = __CLASS__." (length: ".strlen($this->getFrame()).")".PHP_EOL;
     $output .= "|- NwkAddr     : ".$this->displayNwkAddress().PHP_EOL;
-    $output .= ($this->isStartIndexPresent() ? "|" : "`")."- RequestType : ".$this->displayRequestType().PHP_EOL;
-    if($this->isStartIndexPresent())
-      $output .= "`- StartIndex  : ".$this->displayStartIndex().PHP_EOL;
+    $output .= "|- RequestType : ".$this->displayRequestType().PHP_EOL;
+    $output .= "`- StartIndex  : ".$this->displayStartIndex().PHP_EOL;
 
     return $output;
     }
