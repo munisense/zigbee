@@ -19,7 +19,7 @@ class IEEEAddrReqCommandTest extends \PHPUnit_Framework_TestCase
   public function testGetFrameSimple()
     {
     $frame = IEEEAddrReqCommand::constructSingle(0x1234);
-    $this->assertEquals("0x34 0x12 0x00", $frame->displayFrame());
+    $this->assertEquals("0x34 0x12 0x00 0x00", $frame->displayFrame());
     }
 
   public function testGetFrameExtended()

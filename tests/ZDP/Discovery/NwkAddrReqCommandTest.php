@@ -19,7 +19,7 @@ class NwkAddrReqCommandTest extends \PHPUnit_Framework_TestCase
   public function testGetFrameSimple()
     {
     $frame = NwkAddrReqCommand::constructSingle(0xff);
-    $this->assertEquals("0xff 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
+    $this->assertEquals("0xff 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00", $frame->displayFrame());
     }
 
   public function testGetFrameExtended()
