@@ -154,7 +154,7 @@ class Command
     self::COMMAND_COMPLEX_DESC_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\ComplexDescRspCommand", "name" => "Complex Descriptor Response"),
     self::COMMAND_USER_DESC_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\UserDescRspCommand", "name" => "User Descriptor Response"),
     self::COMMAND_DISCOVERY_CACHE_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\DiscoveryCacheRspCommand", "name" => "Discovery Cache Response"),
-    self::COMMAND_USER_DESC_CONF => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\UserDescrConfFrame", "User Descriptor Set Conf"),
+    self::COMMAND_USER_DESC_CONF => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\UserDescConfCommand", "User Descriptor Set Conf"),
 
     self::COMMAND_SYSTEM_SERVER_DISCOVERY_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\SystemServerDiscoveryRspCommand", "name" => " System Server Discovery Response"),
     self::COMMAND_DISCOVERY_STORE_RSP => array("class" => "Munisense\\Zigbee\\ZDP\\Discovery\\DiscoveryStoreRspCommand", "name" => "Discovery Store Response"),
