@@ -136,7 +136,7 @@ class MgmtLqiRspCommand extends AbstractFrame implements IZDPCommandFrame
       $this->addNeighborDescriptor($neighbor_descriptor);
     }
 
-  public function addNeighborDescriptor($neighbor_descriptor)
+  public function addNeighborDescriptor(NeighborDescriptor $neighbor_descriptor)
     {
     $this->neighbor_table_list[] = $neighbor_descriptor;
     }
