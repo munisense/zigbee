@@ -4,13 +4,12 @@
 This library contains classes that map to the various ZigBee frames. Each of those classes
 can be either constructed using a bytestring or using the getters/setters and static constructors.
 
-
 ### Using the library
 #### Installation
 The easiest way to use the library is to add it as dependency in the [composer.json](http://getcomposer.org) of your project. 
 
     "require": {
-        "munisense/zigbee": "~2.3",
+        "munisense/zigbee": "~2.4",
     }
 
 Then run `composer update` and include the `vendor/autoload.php` in your project files, if not already.
@@ -51,7 +50,21 @@ To run the tests you need phpunit installed. Instead of downloading the library 
 
 After that it is as simple as calling `phpunit` in the root folder everytime you want to run the tests.
 
+### Travis Continuous Integration
+* Master [![Build Status](https://travis-ci.org/munisense/zigbee.svg?branch=master)](https://travis-ci.org/munisense/zigbee)
+* Stable [![Build Status](https://travis-ci.org/munisense/zigbee.svg?branch=stable)](https://travis-ci.org/munisense/zigbee)
+
 ### Revision History
+#### 2.4.0
+Added ZDP Discovery Commands
+* ExtendedSimpleDescReq and Rsp Command
+* UserDescConf and Set Command
+
+Added ZDP Network Commands
+* MgmtBindReq, MgmtCacheReqCommand
+* MmtLqiReq and Rsp Command, with NeighborDescriptor structure
+* MmtRtgReq and Rsp Command, with RoutingDescriptor structure
+
 #### 2.3.0
 Minor code organisation changes and added more ZDP Discovery functionality.
 * Renamed MuniZigbeeException to ZigbeeException
@@ -69,20 +82,6 @@ Added the following ZDP Commands:
 * NWKAddr Req and Rsp
 * PowerDesc Req
 * SimpleDesc Req and Rsp
-
-#### 2.1.0
-* Added Configure Reporting and Configure Reporting Response support
-* Fixed some minor bugs and added more unit tests.
-
-#### 2.0.0 
-* Added a namespace hierarchy for the different layers and clusters in ZigBee
-* Modified a lot of naming to be more in line with the names in the ZigBee specification
-* Added ZCL IAS Zone Cluster Support
-* Worked on the General ZigBee Clusters
-* Added licensing and released as open source
-
-#### 1.0.0
-Base Revision
 
 ### License
 

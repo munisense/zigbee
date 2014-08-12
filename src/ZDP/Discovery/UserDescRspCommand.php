@@ -17,7 +17,7 @@ use Munisense\Zigbee\ZDP\Status;
  */
 class UserDescRspCommand extends AbstractFrame implements IZDPCommandFrame
   {
-  private static $allowed_statusses = [Status::SUCCESS, Status::DEVICE_NOT_FOUND, Status::INV_REQUESTTYPE, Status::NO_DESCRIPTOR];
+  private static $allowed_statusses = [Status::SUCCESS, Status::NOT_SUPPORTED, Status::DEVICE_NOT_FOUND, Status::INV_REQUESTTYPE, Status::NO_DESCRIPTOR];
 
   private $status;
   private $nwk_addr_of_interest;
