@@ -70,5 +70,33 @@ class AttributeReportingConfigurationStatusRecordTest extends \PHPUnit_Framework
 
     $this->assertEquals("0x00 0x01 0x34 0x12 0x3c 0x00", $record->displayFrame());
     }
+
+  public function testGetAttributeReportingConfigurationRecord()
+    {
+    // Test with a Received Object
+    $parent = AttributeReportingConfigurationRecord::constructReceived(0x1234, 60);
+    $record = AttributeReportingConfigurationStatusRecord::constructSuccess($parent);
+    $config_record = $record->getAttributeReportingConfigurationRecord();
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZCL\\General\\AttributeReportingConfigurationRecord", $config_record);
+    $this->assertEquals($parent->displayFrame(), $config_record->displayFrame());
+
+    // Test with a Reported Object
+    $parent = AttributeReportingConfigurationRecord::constructReported(0x1234, 60, 400, 200, 12);
+    $record = AttributeReportingConfigurationStatusRecord::constructSuccess($parent);
+    $config_record = $record->getAttributeReportingConfigurationRecord();
+    $this->assertInstanceOf("Munisense\\Zigbee\\ZCL\\General\\AttributeReportingConfigurationRecord", $config_record);
+    $this->assertEquals($parent->displayFrame(), $config_record->displayFrame());
+    }
+
+  /**
+   * @expectedException \Munisense\Zigbee\Exception\ZigbeeException
+   */
+  public function testGetAttributeReportingConfigurationRecord_Failure()
+    {
+    $record = AttributeReportingConfigurationStatusRecord::constructWithError(ZCLStatus::UNREPORTABLE_ATTRIBUTE, AttributeRecord::DIRECTION_SERVER_TO_CLIENT, 0x0012);
+
+    // Should throw an exception
+    $record->getAttributeReportingConfigurationRecord();
+    }
   }
  

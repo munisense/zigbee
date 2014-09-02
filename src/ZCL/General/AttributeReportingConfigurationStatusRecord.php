@@ -55,12 +55,25 @@ class AttributeReportingConfigurationStatusRecord extends AttributeReportingConf
     parent::consumeFrame($parent_frame);
     }
 
+  /**
+   * Helper method to map this object on a AttributeReportingConfigurationRecord.
+   *
+   * @return AttributeReportingConfigurationRecord
+   * @throws ZigbeeException When status is not SUCCESS
+   */
+  public function getAttributeReportingConfigurationRecord()
+    {
+    if($this->getStatus() == ZCLStatus::SUCCESS)
+      return new AttributeReportingConfigurationRecord(parent::getFrame());
+    else
+      throw new ZigbeeException("Can only fetch AttributeReportingConfigurationRecord when status is set to SUCCESS");
+    }
+
   public function consumeFrame(&$frame)
     {
     $this->setStatus(Buffer::unpackInt8u($frame));
     parent::consumeFrame($frame);
     }
-
 
   public function getFrame()
     {
