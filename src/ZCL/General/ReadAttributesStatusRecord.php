@@ -14,13 +14,21 @@ class ReadAttributesStatusRecord extends AbstractFrame
   private $datatype_id;
   private $value;
 
-  public static function construct($attribute_id, $status, $datatype_id, $value)
+  public static function constructSuccess($attribute_id, $datatype_id, $value)
+    {
+    $record = new self;
+    $record->setAttributeId($attribute_id);
+    $record->setStatus(ZCLStatus::SUCCESS);
+    $record->setDatatypeId($datatype_id);
+    $record->setValue($value);
+    return $record;
+    }
+
+  public static function constructFailure($attribute_id, $status)
     {
     $record = new self;
     $record->setAttributeId($attribute_id);
     $record->setStatus($status);
-    $record->setDatatypeId($datatype_id);
-    $record->setValue($value);
     return $record;
     }
 
@@ -28,8 +36,12 @@ class ReadAttributesStatusRecord extends AbstractFrame
     {
     $this->setAttributeId(Buffer::unpackInt16u($frame));
     $this->setStatus(Buffer::unpackInt8u($frame));
-    $this->setDatatypeId(Buffer::unpackInt8u($frame));
-    $this->setValue(Buffer::unpackDatatype($frame, $this->getDatatypeId()));
+
+    if($this->getStatus() == ZCLStatus::SUCCESS)
+      {
+      $this->setDatatypeId(Buffer::unpackInt8u($frame));
+      $this->setValue(Buffer::unpackDatatype($frame, $this->getDatatypeId()));
+      }
     }
 
   public function setFrame($frame)
@@ -46,8 +58,12 @@ class ReadAttributesStatusRecord extends AbstractFrame
 
     Buffer::packInt16u($frame, $this->getAttributeId());
     Buffer::packInt8u($frame, $this->getStatus());
-    Buffer::packInt8u($frame, $this->getDatatypeId());
-    Buffer::packDatatype($frame, $this->getDatatypeId(), $this->getValue());
+
+    if($this->getStatus() == ZCLStatus::SUCCESS)
+      {
+      Buffer::packInt8u($frame, $this->getDatatypeId());
+      Buffer::packDatatype($frame, $this->getDatatypeId(), $this->getValue());
+      }
 
     return $frame;
     }
@@ -133,7 +149,7 @@ class ReadAttributesStatusRecord extends AbstractFrame
 
   public function __toString()
     {
-    return "AttributeId: ".$this->displayAttributeId().", Status: ".$this->displayStatus().", DatatypeId: ".$this->displayDatatypeId().", Value: ".$this->displayValue();
+    return "AttributeId: ".$this->displayAttributeId().", Status: ".$this->displayStatus().($this->getStatus() == ZCLStatus::SUCCESS ? ", DatatypeId: ".$this->displayDatatypeId().", Value: ".$this->displayValue() : "");
     }
   }
 
